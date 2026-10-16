@@ -1,6 +1,17 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "tuck-bit",
-  "version": "0.1.0",
-  "description": "Just-in-time tool discovery, bounded context and quality-preserving agent execution guidance."
+  "version": "0.1.1",
+  "description": "On-demand agent capability discovery, bounded context, cost-aware execution and quality-preserving verification.",
+  "author": {
+    "name": "MakeItEzzz555"
+  },
+  "repository": "https://github.com/MakeItEzzz555/tuck-bit",
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "context-efficiency",
+    "tool-discovery",
+    "agentic-coding"
+  ]
 }

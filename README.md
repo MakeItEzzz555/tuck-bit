@@ -31,6 +31,28 @@ No MCP servers, agent sessions, global rules, hooks, shell command policies, or 
 
 Read docs/ROADMAP.md, docs/ARCHITECTURE.md, docs/SECURITY.md and docs/RESEARCH.md.
 
+## Distribution across coding agents
+
+TuckBit is intentionally one canonical Agent Skill with native distribution wrappers for Claude Code, Codex/ChatGPT developer plugins, Gemini CLI and Cursor Agent Plugins. Other supported coding agents can install the same skill through the Vercel skills CLI.
+
+In a local checkout, the following command **lists** TuckBit without installing it:
+
+    npx skills add /absolute/path/to/tuck-bit --list
+
+Once the repository is public, the intended skills installer is:
+
+    npx skills add MakeItEzzz555/tuck-bit
+
+Claude Code's private preview marketplace is validated with:
+
+    claude plugin validate .
+
+Its manual install command, only after you register the marketplace yourself:
+
+    /plugin install tuck-bit --marketplace MakeItEzzz555/tuck-bit
+
+Read [the compatibility matrix](docs/COMPATIBILITY.md) for native formats, scope, auth limitations and marketplace publication requirements. No user/global installation is performed automatically.
+
 ## Relation to other repositories
 
 Architect-Agent-Superpowers is a separate project with its own Claude marketplace manifest. We do not import, edit, or publish its content through TuckBit. A future optional multi-plugin marketplace can reference separately released repositories with their maintainers' approval.

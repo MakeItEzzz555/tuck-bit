@@ -1,0 +1,17 @@
+{
+  "name": "tuck-bit-preview",
+  "description": "Private TuckBit development plugin catalog; opt-in only.",
+  "owner": {
+    "name": "MakeItEzzz555"
+  },
+  "plugins": [
+    {
+      "name": "tuck-bit",
+      "description": "On-demand agent capability discovery, bounded context, cost-aware execution and quality-preserving verification.",
+      "source": {
+        "source": "github",
+        "repo": "MakeItEzzz555/tuck-bit"
+      }
+    }
+  ]
+}

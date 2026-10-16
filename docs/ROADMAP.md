@@ -7,7 +7,9 @@
 - [x] Basic Claude Code plugin manifest
 - [x] Config precedence inspector, local doctor command and tests
 - [x] Initial research, architecture and security notes
-- [ ] Verify native skill/plugin activation and packaging against current Claude, Codex and Gemini clients
+- [x] Add portable plugin, Claude marketplace, Codex marketplace and Gemini extension manifests with one canonical SKILL.md
+- [x] Build compatibility matrix and generated manifest consistency checks
+- [ ] Verify native skill/plugin activation and packaging against current Claude, Codex, Gemini, Cursor and skills CLI clients
 - [ ] Add reversible global/project installer with backups, explicit approval and conflicts checks
 - [ ] Versioned sample configurations and useful task templates
 - [ ] Establish benchmark harness, privacy-sensitive telemetry and quality baseline

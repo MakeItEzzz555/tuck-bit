@@ -1,0 +1,20 @@
+{
+  "name": "tuck-bit-preview",
+  "interface": {
+    "displayName": "TuckBit Preview"
+  },
+  "plugins": [
+    {
+      "name": "tuck-bit",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

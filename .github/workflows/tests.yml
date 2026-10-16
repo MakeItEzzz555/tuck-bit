@@ -12,5 +12,7 @@ jobs:
           python-version: '3.11'
       - name: Check distribution
         run: python3 scripts/tuckbit.py doctor
+      - name: Confirm distribution manifests are synchronized
+        run: python3 scripts/sync_distributions.py --check
       - name: Unit tests
         run: python3 -m unittest discover -s tests -v

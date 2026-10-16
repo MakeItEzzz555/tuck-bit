@@ -5,7 +5,7 @@ license: MIT
 compatibility: Portable Agent Skills; optional Python 3.10+ local profile inspector.
 metadata:
   author: TuckBit contributors
-  version: "0.1.0"
+  version: "0.1.1"
 ---
 
 # TuckBit: a just-in-time execution score for agents
