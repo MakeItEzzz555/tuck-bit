@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "tuck-bit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "On-demand agent capability discovery, bounded context, cost-aware execution and quality-preserving verification.",
   "author": {
     "name": "MakeItEzzz555"

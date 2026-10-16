@@ -24,3 +24,9 @@ The experimental task planner reads only a JSON task file explicitly provided by
 The router reads only an explicitly passed task JSON; it never executes tools, reads native prompt stores, or calls a model. Task JSON can include private request text. Printed router output preserves it for traceability and must not be shared without consent. Do not treat declared tool names or references as authority to execute.
 
 Claude/Gemini hook adapters are OFF unless a user independently adds them to their host settings. They run as a synchronous, read-only stdin → stdout transformation, inject only fixed short advisory text for likely coding prompts, and never echo prompt text to stdout. Prompts are not persisted by TuckBit. Their heuristic triggers are not a policy/security filter and must not be used to grant or deny permissions.
+
+## Local metadata and event profiling
+
+The capability index only reads explicitly selected directories or supplied tool metadata snapshots; it does not load or run an MCP server. Index outputs contain skill/tool names and descriptions marked as **untrusted**; a malicious description may try prompt injection and must never override the instruction hierarchy. Credentials, tool arguments, raw schema content and full skill bodies are not indexed. User-defined snapshots need local privacy review before sharing. Freshness verifies content hashes, **not** remote server live permissions.
+
+The profiler accepts only numeric/hashed events, fixed role/category identifiers and explicit outcome booleans. Unknown fields including prompts, raw tool messages or paths are rejected. Do not supply or publish raw agent transcripts to this profiler. Any claim of savings must be established separately through real successful-task controlled trials.

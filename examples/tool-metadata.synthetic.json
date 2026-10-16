@@ -1,0 +1,27 @@
+{
+  "tools": [
+    {
+      "provider": "local",
+      "name": "rg",
+      "description": "Search repository source for symbols and file names",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pattern": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "provider": "local",
+      "name": "swift_test",
+      "description": "Run focused Swift regression tests on affected modules"
+    },
+    {
+      "provider": "mcp_demo",
+      "name": "find_skills",
+      "description": "Discover installed agent skills from a catalog of capabilities"
+    }
+  ]
+}

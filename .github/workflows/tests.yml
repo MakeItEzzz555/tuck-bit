@@ -25,3 +25,12 @@ jobs:
           python3 scripts/workflow_router.py examples/workflow-incident.json > /dev/null
           python3 scripts/workflow_router.py examples/workflow-parallel.json > /dev/null
           python3 scripts/workflow_router.py examples/workflow-loop.json > /dev/null
+      - name: Validate explicit capability discovery and freshness
+        run: |
+          python3 scripts/capability_registry.py build --root skills --tools-file examples/tool-metadata.synthetic.json --output /tmp/tuckbit-ci-index.json
+          python3 scripts/capability_registry.py query --snapshot /tmp/tuckbit-ci-index.json --text "Swift regression tests" --limit 5 > /dev/null
+          python3 scripts/capability_registry.py verify --snapshot /tmp/tuckbit-ci-index.json --root skills --tools-file examples/tool-metadata.synthetic.json
+      - name: Compare synthetic redacted traces and route advisory observations
+        run: |
+          python3 scripts/trace_profiler.py compare --baseline examples/trace-baseline.synthetic.json --candidate examples/trace-candidate.synthetic.json > /dev/null
+          python3 scripts/workflow_router.py examples/workflow-incident.json --registry-snapshot /tmp/tuckbit-ci-index.json --trace examples/trace-baseline.synthetic.json > /dev/null

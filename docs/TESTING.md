@@ -82,3 +82,13 @@ Its input is self-authored and has no hooks, network dependency, model requests 
     python3 scripts/eval_routing.py
 
 The evaluation corpus checks correct routing, preserved constraints and validation checks. **Passing is not evidence of actual model quality or token savings.** Hook adapters can be tested with the examples in [HOOKS](HOOKS.md).
+
+## Local capability and trace experiments
+
+```bash
+python3 scripts/capability_registry.py build --root skills --tools-file examples/tool-metadata.synthetic.json
+python3 scripts/trace_profiler.py profile --trace examples/trace-baseline.synthetic.json
+python3 scripts/trace_profiler.py compare --baseline examples/trace-baseline.synthetic.json --candidate examples/trace-candidate.synthetic.json
+```
+
+Fixtures are fictional and outcomes are declared. Passing tests demonstrate parser safety and deterministic behavior, **not** model adaptation or token savings. See [registry docs](CAPABILITY_REGISTRY.md) and [telemetry docs](TELEMETRY.md).

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2 — Private metadata registry and telemetry preview (2026-10-16)
+
+- Added explicit-root Agent Skills discovery and optional tool metadata catalog with SHA-256 freshness verification, size limits and fail-closed snapshot validation.
+- Added advisory lexical capability matching to the existing workflow router, without executing or authorizing tools.
+- Added a strict schema for caller-supplied redacted numeric agent events, with descriptive potential-repeat and large-result counts (not claimed waste).
+- Connected optional trace observations to workflow routing, with deterministic tests and synthetic, clearly labeled examples.
+
 ## Unreleased — provider-adaptive routing and developer onboarding
 
 - Researched published Codex, Claude, Gemini, Cursor, OpenCode, and Copilot execution and subagent behavior; recovered the earlier local Claude-style implementation discipline skill as a design reference.

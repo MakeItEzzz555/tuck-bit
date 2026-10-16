@@ -28,3 +28,11 @@ Source under this repo only. No global modifications; no changes to Architect-Ag
 ## Task-conditioned planning — experimental Phase 1 addition
 
 \`scripts/plan_task.py\` compiles an explicitly provided JSON task contract using \`skills/tuck-bit/assets/hosts.json\` to select a small host-specific strategy. The full request, constraints, mandatory checks and user-provided tool names remain explicit. This read-only preview cannot observe private model reasoning, determine provider-level permissions, or confirm which host instructions were injected. It has no hooks and does not silently open local global instructions. Automatic per-turn adaptation requires a separately approved provider-native integration and behavior benchmarks.
+
+## Phase 2 metadata registry proof-of-concept
+
+The optional `scripts/capability_registry.py` reads only explicitly specified skill roots and a caller-supplied tool-metadata file. It stores only name, description, opaque schema/file hashes and relative source references. Native discovery and authorization remain authoritative. The router can receive a snapshot via `--registry-snapshot` and suggest matches; matches are not automatically executed. No MCP server connection or global scan is made.
+
+## Phase 1 telemetry contract proof-of-concept
+
+`scripts/trace_profiler.py` accepts structured numeric/hashed events with an explicit verified outcome and produces aggregate, descriptive statistics. Raw prompts/tool outputs and other unapproved fields are rejected. The router can accept a trace via `--trace` and reflect visible repeated calls and large outputs as advisory notes, without modifying user requirements. The profiler is not a native session parser, cost oracle or verified savings benchmark.

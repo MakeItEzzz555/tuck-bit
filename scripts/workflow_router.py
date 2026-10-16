@@ -7,6 +7,8 @@ import argparse
 import json
 from pathlib import Path
 from plan_task import compile_plan
+from capability_registry import load_snapshot, query as find_capabilities
+from trace_profiler import load as load_trace, profile as summarize_trace
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "skills/tuck-bit/assets/workflows.json"
@@ -61,7 +63,7 @@ def _signals(obj):
             raise ValueError("signal values must be bounded nonnegative integers")
     return obj
 
-def route(task):
+def route(task, capability_snapshot=None, trace_summary=None):
     if not isinstance(task, dict):
         raise ValueError("task must be an object")
     unknown = set(task) - EXTRA_KEYS - INPUT_KEYS
@@ -79,7 +81,16 @@ def route(task):
             or len(task[field]) > 300
         ):
             raise ValueError(field + " must be a short nonempty string")
-    observations = _signals(task.get("signals", {}))
+    observations = dict(_signals(task.get("signals", {})))
+    if trace_summary is not None:
+        if not isinstance(trace_summary, dict) or trace_summary.get("metrics_source") != "explicit_redacted_trace":
+            raise ValueError("Unsupported trace summary")
+        for signal, metric in (("duplicate_tool_calls", "potential_identical_repeats"),
+                               ("large_tool_outputs", "large_results_16k_or_more")):
+            value = trace_summary.get(metric)
+            if type(value) is not int or not 0 <= value <= 10000:
+                raise ValueError("Invalid trace-derived metric: " + metric)
+            observations[signal] = max(observations.get(signal, 0), value)
     streams = task.get("workstreams", [])
     collisions = _validate_workstreams(streams)
     base = compile_plan({k:v for k,v in task.items() if k in INPUT_KEYS})
@@ -132,6 +143,16 @@ def route(task):
     if base["execution"]["risk"] == "high":
         checks.append("Review required security and rollback implications")
     checks.append("Review final change or evidence and report remaining uncertainties")
+    candidates = []
+    if capability_snapshot is not None:
+        # Explicitly provided cached metadata only; never run or activate a tool.
+        for row in find_capabilities(capability_snapshot, base["request"], limit=5):
+            candidates.append({"type": row["type"], "name": row["name"],
+                               "provider": row.get("provider"),
+                               "source": row["source"],
+                               "relevance_score": row["relevance_score"],
+                               "trust": "untrusted_metadata",
+                               "requires_host_authorization": True})
     return {
         "schema": 1,
         "kind": "advisory_workflow",
@@ -148,6 +169,7 @@ def route(task):
             "host_worker_policy": profile["workers"],
             "host_source": profile["source"],
             "checks": checks,
+            "suggested_capabilities": candidates,
             "observations": observations,
             "effective_permissions": "unknown; original host authorization always required",
             "tool_calls_made": 0,
@@ -160,12 +182,16 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("task_file", help="Explicit JSON task file")
     p.add_argument("--output", help="Optional new output file; never overwrites")
+    p.add_argument("--registry-snapshot", help="Explicit local capability metadata snapshot (advisory only)")
+    p.add_argument("--trace", help="Explicit redacted event trace used only for observable hints")
     args = p.parse_args()
     try:
         source = Path(args.task_file).expanduser()
         if not source.is_file() or source.is_symlink() or source.stat().st_size > MAX_INPUT_BYTES:
             raise ValueError("task source must be a small ordinary file")
-        result = route(json.loads(source.read_text(encoding="utf-8")))
+        catalog = load_snapshot(args.registry_snapshot) if args.registry_snapshot else None
+        trace = summarize_trace(load_trace(args.trace)) if args.trace else None
+        result = route(json.loads(source.read_text(encoding="utf-8")), catalog, trace)
         data = json.dumps(result, indent=2, ensure_ascii=False) + "\n"
         if args.output:
             dest = Path(args.output).expanduser()

@@ -130,6 +130,59 @@ class WorkflowRouterTests(unittest.TestCase):
         r=route(self.task(request="Parallel tasks please", parallel=False))
         self.assertEqual(r["routing"]["workflow"],"single")
 
+    def test_router_uses_explicit_registry_metadata_without_tool_execution(self):
+        from capability_registry import build
+        catalog = build([ROOT/"skills"], ROOT/"examples/tool-metadata.synthetic.json")
+        task = self.task(request="Search repository source for regression tests", host="codex")
+        output = route(task, catalog)
+        choices = output["routing"]["suggested_capabilities"]
+        self.assertTrue(choices)
+        self.assertEqual(choices[0]["trust"], "untrusted_metadata")
+        self.assertTrue(all(c["requires_host_authorization"] for c in choices))
+        self.assertEqual(output["routing"]["tool_calls_made"], 0)
+        self.assertNotIn("description", choices[0])
+
+    def test_explicit_trace_prompts_reflection_not_unproved_savings(self):
+        from trace_profiler import load, profile
+        events=profile(load(ROOT/"examples/trace-baseline.synthetic.json"))
+        routed=route(self.task(), trace_summary=events)
+        self.assertEqual(routed["routing"]["observations"]["large_tool_outputs"], 2)
+        self.assertEqual(routed["routing"]["observations"]["duplicate_tool_calls"], 1)
+        self.assertIn("oversized", " ".join(routed["routing"]["notices"]))
+        self.assertEqual(routed["routing"]["tool_calls_made"], 0)
+
+    def test_invalid_trace_summary_fails_closed(self):
+        with self.assertRaises(ValueError):
+            route(self.task(), trace_summary={"metrics_source":"unknown"})
+
+    def test_cli_explicit_trace_is_accepted(self):
+        with tempfile.TemporaryDirectory() as folder:
+            task=Path(folder)/"task.json"
+            task.write_text(json.dumps(self.task()))
+            res=subprocess.run([sys.executable,str(ROOT/"scripts/workflow_router.py"),str(task),
+                "--trace",str(ROOT/"examples/trace-baseline.synthetic.json")],
+                capture_output=True,text=True)
+            self.assertEqual(res.returncode,0,res.stderr)
+            report=json.loads(res.stdout)
+            self.assertEqual(report["routing"]["observations"]["large_tool_outputs"],2)
+
+    def test_registry_is_opt_in(self):
+        self.assertEqual(route(self.task())["routing"]["suggested_capabilities"], [])
+
+    def test_cli_reads_explicit_registry_snapshot(self):
+        from capability_registry import build
+        import tempfile
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            task = folder/"task.json"
+            snapshot = folder/"snapshot.json"
+            task.write_text(json.dumps(self.task(request="Search repository source for regression tests")))
+            snapshot.write_text(json.dumps(build([ROOT/"skills"], ROOT/"examples/tool-metadata.synthetic.json")))
+            p = subprocess.run([sys.executable, str(ROOT/"scripts/workflow_router.py"),str(task),
+                                "--registry-snapshot",str(snapshot)],capture_output=True,text=True)
+            self.assertEqual(p.returncode, 0, p.stderr)
+            self.assertTrue(json.loads(p.stdout)["routing"]["suggested_capabilities"])
+
     def test_cli_outputs_parseable_json_without_side_effects(self):
         with tempfile.TemporaryDirectory() as d:
             task=Path(d)/"task.json"

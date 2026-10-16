@@ -114,6 +114,41 @@ python3 scripts/install.py install --scope project \
 
 Six native target paths are available (Claude Code, Codex, Gemini, Cursor, OpenCode, Copilot). No global install is performed by default; real installation is an explicit separate action. [Install, rollback and testing details](docs/TESTING.md).
 
+## Local capability index and execution profiling
+
+The **full source checkout** now includes opt-in, read-only metadata discovery and redacted event profiling. The registry indexes only explicitly selected skill roots and optional tool catalogs; it never contacts MCP servers or activates tools. The standalone Agent Skill installation remains instruction-only: root-level Python CLI utilities are **not yet bundled** into the portable skill package.
+
+```bash
+# Index this repository's skill and a synthetic, nonsecret tool catalog.
+python3 scripts/capability_registry.py build \
+  --root skills \
+  --tools-file examples/tool-metadata.synthetic.json \
+  --output /tmp/tuckbit-preview-index.json
+
+# Find candidates (metadata only), and ensure the snapshot is still fresh.
+python3 scripts/capability_registry.py query \
+  --snapshot /tmp/tuckbit-preview-index.json \
+  --text "Swift regression tests"
+python3 scripts/capability_registry.py verify \
+  --snapshot /tmp/tuckbit-preview-index.json \
+  --root skills --tools-file examples/tool-metadata.synthetic.json
+
+# Supply a catalog and optional redacted observations to the task router.
+python3 scripts/workflow_router.py examples/workflow-incident.json \
+  --registry-snapshot /tmp/tuckbit-preview-index.json \
+  --trace examples/trace-baseline.synthetic.json
+```
+
+A lightweight profiler compares caller-supplied numeric trace summaries without accepting raw prompts, logs, or tool arguments:
+
+```bash
+python3 scripts/trace_profiler.py compare \
+  --baseline examples/trace-baseline.synthetic.json \
+  --candidate examples/trace-candidate.synthetic.json
+```
+
+The trace files above are **synthetic test fixtures, not real token savings**. No user-agent session is queried. See [metadata registry](docs/CAPABILITY_REGISTRY.md) and [safe telemetry](docs/TELEMETRY.md).
+
 ## Agent support
 
 **One canonical Agent Skill. Provider-specific policies only where the runtime genuinely differs.**
@@ -182,6 +217,8 @@ python3 scripts/workflow_router.py examples/workflow-loop.json
 | Declarative task-contract and workflow router | ✅ deterministic, no-model |
 | Provider research and host policies | ✅ published-source grounded |
 | Opt-in Claude/Gemini prompt-entry advisors | ✅ Prototype, no automatic registration |
+| Local skill/MCP metadata index and freshness verification | ✅ explicit inputs, read-only |
+| Redacted event profiling and router signals | ✅ explicit inputs, deterministic |
 | Native tool-call interception / adaptive control | Planned — opt-in |
 | Benchmarked token/cost savings without quality loss | Not yet established |
 | Public marketplace listings, npm release, website | Not published |
@@ -209,7 +246,7 @@ It deliberately prioritizes:
 
 ## Research, architecture and contribution
 
-[Provider execution research](docs/PROVIDER_EXECUTION.md) · [Opt-in hook adapters](docs/HOOKS.md) · [Task-aware design](docs/TASK_AWARE.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md) · [Security](SECURITY.md) · [Tests](docs/TESTING.md) · [Contributing](CONTRIBUTING.md)
+[Capability index](docs/CAPABILITY_REGISTRY.md) · [Profiler](docs/TELEMETRY.md) · [Provider execution research](docs/PROVIDER_EXECUTION.md) · [Opt-in hook adapters](docs/HOOKS.md) · [Task-aware design](docs/TASK_AWARE.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md) · [Security](SECURITY.md) · [Tests](docs/TESTING.md) · [Contributing](CONTRIBUTING.md)
 
 The project is currently developed privately. When evidence-based beta tests and onboarding are ready, the repository and skill can be released publicly under the [MIT license](LICENSE).
 

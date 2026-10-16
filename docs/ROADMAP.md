@@ -20,12 +20,16 @@
 - [x] Add reproducible no-model routing scenarios and README product overview
 - [ ] Test optional prompt-entry hooks in actual Claude/Gemini client sessions with user-approved settings
 - [ ] Native active-context and tool-availability adapters, strictly permission-aware (opt-in)
-- [ ] Establish benchmark harness, privacy-sensitive telemetry and quality baseline
+- [x] Add explicit-input local skill/MCP metadata registry, search and freshness checks (proof-of-concept)
+- [x] Add redacted numeric/hashed trace profiler and optional routing observations (proof-of-concept)
+- [ ] Establish real provider telemetry adapters, benchmark harness and quality-controlled baseline
 - [ ] Run real client integration tests without burning large model allowances
 
 ## Phase 2 — on-demand capability indexing
 
-- Safe local skill/MCP metadata registry, freshness and revision checks, per-host selective discovery.
+- [x] Proof-of-concept safe local skill/MCP metadata registry, SHA freshness and deterministic candidate search.
+- [ ] Broader provider-native metadata adapters and revocation-aware live discovery, with explicit authorization and accuracy benchmarks.
+- [ ] Make registry/profiler CLI available to standalone skill users via independently tested optional distribution (no duplicate codebase).
 - Review and migrate useful code from earlier LeanHarness preview rather than blindly copying it.
 - Keep existing native tool search as the preferred execution route.
 
