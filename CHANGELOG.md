@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — provider-adaptive routing and developer onboarding
+
+- Researched published Codex, Claude, Gemini, Cursor, OpenCode, and Copilot execution and subagent behavior; recovered the earlier local Claude-style implementation discipline skill as a design reference.
+- Added executable Fast/Standard/Deep workflow routing, ownership-aware parallel candidates, checkpoint-gated recurring candidates, review-only routing and observable retry/test/log signals.
+- Added a deterministic routing evaluation corpus; no model or token-savings claims.
+- Added explicitly opt-in Claude Code and Gemini prompt-entry hook prototypes with non-coding no-op and explicit opt-out, without registering hooks anywhere.
+- Reworked README around concrete workflow examples, transparent feature status and reproducible validation.
+
 ## Unreleased — prompt-conditioned execution guidance
 
 - Added a no-model task-contract planner, host-specific guidance profiles, and strict tests.

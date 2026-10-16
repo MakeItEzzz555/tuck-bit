@@ -1,0 +1,36 @@
+{
+  "request": "Implement isolated UI accessibility fixes and independent parser tests in parallel.",
+  "host": "claude",
+  "complexity": "standard",
+  "risk": "normal",
+  "parallel": true,
+  "enable_orchestration": true,
+  "workstreams": [
+    {
+      "goal": "Accessibility",
+      "owned_files": [
+        "src/accessibility.ts"
+      ]
+    },
+    {
+      "goal": "Parser tests",
+      "owned_files": [
+        "tests/parser.test.ts"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify unrelated files",
+    "Do not bypass approvals"
+  ],
+  "checks": [
+    "Run affected tests and inspect integration diff"
+  ],
+  "tools": [
+    "git",
+    "rg"
+  ],
+  "needed_tools": [
+    "rg"
+  ]
+}

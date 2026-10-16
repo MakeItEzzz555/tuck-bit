@@ -1,0 +1,18 @@
+{
+  "request": "Investigate and fix an authentication race with a safe rollback plan.",
+  "host": "codex",
+  "complexity": "fast",
+  "risk": "high",
+  "constraints": [
+    "Preserve existing session compatibility",
+    "Do not migrate production data"
+  ],
+  "checks": [
+    "Regression test",
+    "Security and rollback verification"
+  ],
+  "signals": {
+    "failed_checks": 2,
+    "unchanged_retries": 2
+  }
+}

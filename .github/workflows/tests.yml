@@ -18,3 +18,10 @@ jobs:
         run: python3 -m unittest discover -s tests -v
       - name: No-model install and metadata smoke test
         run: python3 scripts/smoke_free.py
+      - name: Verify adaptive workflow policy corpus
+        run: python3 scripts/eval_routing.py
+      - name: Smoke-test provider routing examples
+        run: |
+          python3 scripts/workflow_router.py examples/workflow-incident.json > /dev/null
+          python3 scripts/workflow_router.py examples/workflow-parallel.json > /dev/null
+          python3 scripts/workflow_router.py examples/workflow-loop.json > /dev/null

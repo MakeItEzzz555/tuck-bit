@@ -18,3 +18,9 @@ The installer modifies only an explicitly selected scope. Project is the default
 ## Task-plan preview
 
 The experimental task planner reads only a JSON task file explicitly provided by its caller; it does not scan hidden agent instructions, other projects, or global user configuration. The JSON includes the full request and constraints, so its printed output can contain sensitive user text. Do not log, publish, or upload task-envelope output without consent. Host profiles are advisory and do not inspect model reasoning, change reasoning settings, or authorize tools.
+
+## Workflow router and optional entry hooks
+
+The router reads only an explicitly passed task JSON; it never executes tools, reads native prompt stores, or calls a model. Task JSON can include private request text. Printed router output preserves it for traceability and must not be shared without consent. Do not treat declared tool names or references as authority to execute.
+
+Claude/Gemini hook adapters are OFF unless a user independently adds them to their host settings. They run as a synchronous, read-only stdin → stdout transformation, inject only fixed short advisory text for likely coding prompts, and never echo prompt text to stdout. Prompts are not persisted by TuckBit. Their heuristic triggers are not a policy/security filter and must not be used to grant or deny permissions.

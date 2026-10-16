@@ -1,0 +1,17 @@
+{
+  "request": "On a repository event, audit and maintain the project with a durable checkpoint.",
+  "host": "gemini",
+  "complexity": "standard",
+  "risk": "normal",
+  "continuous": true,
+  "enable_orchestration": true,
+  "event_trigger": "new GitHub push",
+  "checkpoint_reference": "state/last-verified-sha.json",
+  "constraints": [
+    "No force-push",
+    "Only create code changes when justified"
+  ],
+  "checks": [
+    "Relevant tests against new commit"
+  ]
+}

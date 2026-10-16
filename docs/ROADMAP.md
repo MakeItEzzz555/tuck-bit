@@ -3,7 +3,7 @@
 ## Phase 1 — portable foundation (started)
 
 - [x] Private source directory and Git repository
-- [x] Canonical portable skill, six reference playbooks, four enabled default modules
+- [x] Canonical portable skill, six core module playbooks plus task/workflow references, four enabled default modules
 - [x] Basic Claude Code plugin manifest
 - [x] Config precedence inspector, local doctor command and tests
 - [x] Initial research, architecture and security notes
@@ -14,6 +14,11 @@
 - [x] Add a reversible project/global installer with conflict refusal, explicit backups, integrity checks and failure rollback
 - [ ] Versioned sample configurations and useful task templates
 - [x] Add opt-in, no-model task-contract planner with declarative host profiles
+- [x] Document provider-specific execution policies, based on official documentation and earlier local implementation skill
+- [x] Add deterministic Fast/Standard/Deep router with independent Parallel/Continuous/Review candidates
+- [x] Add opt-in, unregistered Claude/Gemini prompt-entry hook prototypes and negative-trigger tests
+- [x] Add reproducible no-model routing scenarios and README product overview
+- [ ] Test optional prompt-entry hooks in actual Claude/Gemini client sessions with user-approved settings
 - [ ] Native active-context and tool-availability adapters, strictly permission-aware (opt-in)
 - [ ] Establish benchmark harness, privacy-sensitive telemetry and quality baseline
 - [ ] Run real client integration tests without burning large model allowances

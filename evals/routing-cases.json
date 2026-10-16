@@ -1,0 +1,249 @@
+{
+  "schema": 1,
+  "cases": [
+    {
+      "id": "low-risk fast",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ],
+        "complexity": "fast"
+      },
+      "expect": {
+        "depth": "fast",
+        "workflow": "single"
+      }
+    },
+    {
+      "id": "normal default",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ]
+      },
+      "expect": {
+        "depth": "standard",
+        "workflow": "single"
+      }
+    },
+    {
+      "id": "high risk overrides fast",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ],
+        "complexity": "fast",
+        "risk": "high"
+      },
+      "expect": {
+        "depth": "deep",
+        "workflow": "single"
+      }
+    },
+    {
+      "id": "multiple failures escalate",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ],
+        "signals": {
+          "failed_checks": 2
+        }
+      },
+      "expect": {
+        "depth": "deep",
+        "workflow": "single"
+      }
+    },
+    {
+      "id": "dependency expands fast",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ],
+        "complexity": "fast",
+        "signals": {
+          "unresolved_dependencies": 2
+        }
+      },
+      "expect": {
+        "depth": "standard",
+        "workflow": "single"
+      }
+    },
+    {
+      "id": "parallel denied by default",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ],
+        "parallel": true
+      },
+      "expect": {
+        "depth": "standard",
+        "workflow": "single"
+      }
+    },
+    {
+      "id": "independent parallel",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ],
+        "parallel": true,
+        "enable_orchestration": true,
+        "workstreams": [
+          {
+            "goal": "Tests",
+            "owned_files": [
+              "tests/a.py"
+            ]
+          },
+          {
+            "goal": "Code",
+            "owned_files": [
+              "src/a.py"
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "depth": "standard",
+        "workflow": "parallel_candidate"
+      }
+    },
+    {
+      "id": "parallel conflicting files",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ],
+        "parallel": true,
+        "enable_orchestration": true,
+        "workstreams": [
+          {
+            "goal": "Tests",
+            "owned_files": [
+              "src/a.py"
+            ]
+          },
+          {
+            "goal": "Code",
+            "owned_files": [
+              "src/a.py"
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "depth": "standard",
+        "workflow": "single"
+      }
+    },
+    {
+      "id": "unconfigured recurring",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ],
+        "continuous": true
+      },
+      "expect": {
+        "depth": "standard",
+        "workflow": "single"
+      }
+    },
+    {
+      "id": "event triggered loop",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ],
+        "continuous": true,
+        "enable_orchestration": true,
+        "event_trigger": "a new commit",
+        "checkpoint_reference": "state.json"
+      },
+      "expect": {
+        "depth": "standard",
+        "workflow": "event_driven_candidate"
+      }
+    },
+    {
+      "id": "review only",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ],
+        "review_only": true
+      },
+      "expect": {
+        "depth": "standard",
+        "workflow": "review"
+      }
+    },
+    {
+      "id": "security review only",
+      "task": {
+        "request": "Inspect and implement a verified change.",
+        "constraints": [
+          "Do not remove tests"
+        ],
+        "checks": [
+          "Run applicable tests"
+        ],
+        "review_only": true,
+        "risk": "high",
+        "complexity": "fast"
+      },
+      "expect": {
+        "depth": "deep",
+        "workflow": "review"
+      }
+    }
+  ]
+}

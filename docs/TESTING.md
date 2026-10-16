@@ -73,3 +73,12 @@ References: https://github.com/vercel-labs/skills · https://agentskills.io/spec
     python3 scripts/plan_task.py examples/task-contract.json
 
 Its input is self-authored and has no hooks, network dependency, model requests or provider configuration reads. The resulting JSON carries the full original request/constraints and should not be uploaded when sensitive.
+
+## Provider-adaptive workflow regression tests
+
+    python3 scripts/workflow_router.py examples/workflow-incident.json
+    python3 scripts/workflow_router.py examples/workflow-parallel.json
+    python3 scripts/workflow_router.py examples/workflow-loop.json
+    python3 scripts/eval_routing.py
+
+The evaluation corpus checks correct routing, preserved constraints and validation checks. **Passing is not evidence of actual model quality or token savings.** Hook adapters can be tested with the examples in [HOOKS](HOOKS.md).

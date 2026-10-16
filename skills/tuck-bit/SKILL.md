@@ -29,6 +29,7 @@ Start with **the exact user request**, explicitly available project/global/sessi
 ## Load only the relevant reference
 
 - Task-conditioned execution and host adaptation: references/task-contract.md
+- Adaptive Fast / Standard / Deep workflow selection: references/workflows.md
 - Tool and skill discovery: references/registry.md
 - Context packets and checkpoints: references/context.md
 - Verification, builds and risks: references/verification.md

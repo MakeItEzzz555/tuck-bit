@@ -71,3 +71,7 @@ This roadmap intentionally does **not** ask to reveal hidden chain-of-thought or
 - https://developers.openai.com/plugins/concepts/skills
 - https://geminicli.com/docs/cli/skills/
 - https://geminicli.com/docs/hooks/reference/
+
+## Completed subsequent prototype work
+
+A deterministic workflow router now selects Fast/Standard/Deep based on declared risk, complexity and observed tool/test behavior. Parallel work requires opt-in and separate owned files; recurring work requires an explicit event trigger and checkpoint. Optional Claude/Gemini prompt-entry hook prototypes are implemented but not registered globally. Both are advisory, cannot inspect private reasoning, and are **not** equivalent to native model-driven activation. See [provider study](PROVIDER_EXECUTION.md) and [hook details](HOOKS.md).
