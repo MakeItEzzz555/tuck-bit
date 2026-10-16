@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "tuck-bit",
+  "version": "0.1.0",
+  "description": "Just-in-time tool discovery, bounded context and quality-preserving agent execution guidance."
+}

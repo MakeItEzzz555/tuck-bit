@@ -1,0 +1,9 @@
+{
+  "name": "tuck-bit",
+  "version": "0.1.0",
+  "description": "Context-efficient, quality-preserving tool discovery and agent execution guidance.",
+  "author": {
+    "name": "TuckBit contributors"
+  },
+  "license": "MIT"
+}
