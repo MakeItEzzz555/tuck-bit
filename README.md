@@ -85,6 +85,12 @@ npx skills add MakeItEzzz555/tuck-bit
 
 **The repository is private right now**, so the public GitHub command is not a usable anonymous install yet.
 
+For Claude Code, after explicitly adding the authenticated private marketplace, the intended in-client install command is:
+
+    /plugin install tuck-bit --marketplace MakeItEzzz555/tuck-bit
+
+This is a documentation example—not an installation performed by TuckBit.
+
 ### Option 2 — Use the Python preview (no AI tokens)
 
 ```bash
