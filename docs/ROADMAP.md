@@ -13,6 +13,8 @@
 - [ ] Test real model-driven skill activation and quality on available native coding-agent clients
 - [x] Add a reversible project/global installer with conflict refusal, explicit backups, integrity checks and failure rollback
 - [ ] Versioned sample configurations and useful task templates
+- [x] Add opt-in, no-model task-contract planner with declarative host profiles
+- [ ] Native active-context and tool-availability adapters, strictly permission-aware (opt-in)
 - [ ] Establish benchmark harness, privacy-sensitive telemetry and quality baseline
 - [ ] Run real client integration tests without burning large model allowances
 

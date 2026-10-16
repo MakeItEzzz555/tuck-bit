@@ -24,3 +24,7 @@ Tools execute through their original permission mechanisms. Skill content is beh
 ## Scope
 
 Source under this repo only. No global modifications; no changes to Architect-Agent-Superpowers or DynamicIsland; no automatic model invocation. Performance targets require A/B evaluation against correct outcomes.
+
+## Task-conditioned planning — experimental Phase 1 addition
+
+\`scripts/plan_task.py\` compiles an explicitly provided JSON task contract using \`skills/tuck-bit/assets/hosts.json\` to select a small host-specific strategy. The full request, constraints, mandatory checks and user-provided tool names remain explicit. This read-only preview cannot observe private model reasoning, determine provider-level permissions, or confirm which host instructions were injected. It has no hooks and does not silently open local global instructions. Automatic per-turn adaptation requires a separately approved provider-native integration and behavior benchmarks.

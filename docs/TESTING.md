@@ -67,3 +67,9 @@ Confirmed Mac CLI executables: Codex, Claude Code, Python, npm/npx, Git and GitH
 Use paired baseline and TuckBit conditions with the same prompts and model configuration. Include straightforward fixes, search-heavy work, deliberate tool selection, security boundary requests, multi-agent handoffs, and failure recovery. Measure acceptance-criteria completion, correct activation, uncached/cached input, output tokens, tool calls, validation repetitions, latency and unsafe behavior. Avoid publishing token savings claims before replicated outcome-level evidence.
 
 References: https://github.com/vercel-labs/skills · https://agentskills.io/specification · https://code.claude.com/docs/en/plugins · https://geminicli.com/docs/cli/skills/ · https://docs.opencode.ai/docs/skills/ · https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills
+
+## Task-aware compiler smoke test
+
+    python3 scripts/plan_task.py examples/task-contract.json
+
+Its input is self-authored and has no hooks, network dependency, model requests or provider configuration reads. The resulting JSON carries the full original request/constraints and should not be uploaded when sensitive.

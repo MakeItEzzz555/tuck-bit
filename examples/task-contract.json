@@ -1,0 +1,28 @@
+{
+  "request": "Fix island collapse timing without changing the user's installed app; report verified results.",
+  "constraints": [
+    "Do not modify global agent configuration",
+    "Do not overwrite or merge unrelated work"
+  ],
+  "host": "codex",
+  "model": "user-selected",
+  "risk": "normal",
+  "parallel": false,
+  "continuous": false,
+  "tools": [
+    "git",
+    "rg",
+    "swift test"
+  ],
+  "needed_tools": [
+    "rg",
+    "swift test"
+  ],
+  "checks": [
+    "Run focused collapse tests",
+    "Report any untested native behavior"
+  ],
+  "instruction_references": [
+    "Repository AGENTS.md if actually loaded by the host"
+  ]
+}

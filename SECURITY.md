@@ -14,3 +14,7 @@ TuckBit is a **guidance skill**, not a sandbox or an authority to bypass host ap
 ## Installer behavior
 
 The installer modifies only an explicitly selected scope. Project is the default; global requires a flag. Existing skill folders cannot be replaced unless the user supplies --replace, which saves a recoverable backup. Managed file modification, symlink ancestor detection and state mismatch cause a fail-closed error. It never starts a model, changes provider permission settings, or registers external MCP servers. Untrusted home/project directories and simultaneous manual filesystem changes are outside the installer threat model; review all pending changes before invoking it on important files.
+
+## Task-plan preview
+
+The experimental task planner reads only a JSON task file explicitly provided by its caller; it does not scan hidden agent instructions, other projects, or global user configuration. The JSON includes the full request and constraints, so its printed output can contain sensitive user text. Do not log, publish, or upload task-envelope output without consent. Host profiles are advisory and do not inspect model reasoning, change reasoning settings, or authorize tools.

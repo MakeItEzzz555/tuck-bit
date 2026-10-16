@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — prompt-conditioned execution guidance
+
+- Added a no-model task-contract planner, host-specific guidance profiles, and strict tests.
+- Preserve exact stated constraints and tool availability; never infer hidden instructions or private model reasoning.
+- Documented limitations and the path toward opt-in native runtime adapters and measured behavioral adaptation.
+
 ## Unreleased — no-model acceptance and reversible installation
 
 - Added native six-client project/global installer, dry-run and idempotent status tracking.

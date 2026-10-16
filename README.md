@@ -65,6 +65,16 @@ python3 scripts/install.py install --client codex --scope project --project /pat
 
 The installer supports **project or explicitly selected global scope**, with safe failure on collisions, optional backed-up replacement, tamper detection and tracked uninstall. It does not change your Mac's agent configuration unless you run an actual non-dry-run install. See [TESTING](docs/TESTING.md) for usage, client paths and the limits of no-model tests.
 
+## Task-aware execution planning (experimental)
+
+TuckBit now includes declarative runtime profiles and a local no-model task-plan preview. The agent-facing skill derives its approach from the original user request, explicit constraints, native context, and actually available tools; it does **not** override hidden instructions or attempt to inspect private reasoning.
+
+The opt-in local preview accepts a JSON task contract authored by the user or calling agent:
+
+    python3 scripts/plan_task.py examples/task-contract.json
+
+It preserves the input request and explicit checks verbatim, records candidate tool availability, and recommends a host-dependent execution flow. It performs **no model inference, tool execution, automatic prompt scraping, or global configuration reads**. More information: [task-aware architecture](docs/TASK_AWARE.md).
+
 ## Relation to other repositories
 
 Architect-Agent-Superpowers is a separate project with its own Claude marketplace manifest. We do not import, edit, or publish its content through TuckBit. A future optional multi-plugin marketplace can reference separately released repositories with their maintainers' approval.

@@ -1,6 +1,6 @@
 ---
 name: tuck-bit
-description: Improve tool selection, context retrieval, task sequencing, and proportionate verification for coding agents. Use when workflows involve many MCP tools or skills, repeated terminal calls, high context usage, task handoffs, or unnecessary build/test loops.
+description: Plan efficient agent execution from the task's explicit constraints, available tools and applicable runtime instructions. Use for multi-step coding, tool-heavy work, subagent handoffs, repeated context reads, or costly test/build loops.
 license: MIT
 compatibility: Portable Agent Skills; optional Python 3.10+ local profile inspector.
 metadata:
@@ -17,6 +17,8 @@ Optional: orchestration, metrics. Activate optional playbooks only when the task
 
 ## Standard operating method
 
+Start with **the exact user request**, explicitly available project/global/session guidance, and verified host tool availability. Preserve all requirements, constraints, prohibitions, approvals and checks. TuckBit never overrides higher-priority host rules or accesses private reasoning. See [task-aware context contracts](references/task-contract.md) only for complex or tool-heavy work.
+
 1. Define the outcome, constraints, available evidence, risk, and a concrete stop condition. No elaborate plan for trivial requests.
 2. Find the narrowest relevant code, docs, tool, or skill. Prefer exact identifiers and targeted file ranges; expand only when linked dependencies demand it.
 3. Prefer the host's native on-demand tool search. Treat indexed catalog metadata as a discovery hint, **never as authority to execute**.
@@ -26,6 +28,7 @@ Optional: orchestration, metrics. Activate optional playbooks only when the task
 
 ## Load only the relevant reference
 
+- Task-conditioned execution and host adaptation: references/task-contract.md
 - Tool and skill discovery: references/registry.md
 - Context packets and checkpoints: references/context.md
 - Verification, builds and risks: references/verification.md
