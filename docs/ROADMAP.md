@@ -9,8 +9,9 @@
 - [x] Initial research, architecture and security notes
 - [x] Add portable plugin, Claude marketplace, Codex marketplace and Gemini extension manifests with one canonical SKILL.md
 - [x] Build compatibility matrix and generated manifest consistency checks
-- [ ] Verify native skill/plugin activation and packaging against current Claude, Codex, Gemini, Cursor and skills CLI clients
-- [ ] Add reversible global/project installer with backups, explicit approval and conflicts checks
+- [x] Validate Claude marketplace and real skills CLI copying/instruction rendering without an AI model
+- [ ] Test real model-driven skill activation and quality on available native coding-agent clients
+- [x] Add a reversible project/global installer with conflict refusal, explicit backups, integrity checks and failure rollback
 - [ ] Versioned sample configurations and useful task templates
 - [ ] Establish benchmark harness, privacy-sensitive telemetry and quality baseline
 - [ ] Run real client integration tests without burning large model allowances

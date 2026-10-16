@@ -10,3 +10,7 @@ TuckBit is a **guidance skill**, not a sandbox or an authority to bypass host ap
 - Future log analysis must be opt-in and redact potentially sensitive data before writing reports.
 - Never reduce required correctness or security checks to hit a token budget.
 - Treat first-party and provider policy as stronger than local skill configuration.
+
+## Installer behavior
+
+The installer modifies only an explicitly selected scope. Project is the default; global requires a flag. Existing skill folders cannot be replaced unless the user supplies --replace, which saves a recoverable backup. Managed file modification, symlink ancestor detection and state mismatch cause a fail-closed error. It never starts a model, changes provider permission settings, or registers external MCP servers. Untrusted home/project directories and simultaneous manual filesystem changes are outside the installer threat model; review all pending changes before invoking it on important files.

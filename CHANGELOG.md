@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — no-model acceptance and reversible installation
+
+- Added native six-client project/global installer, dry-run and idempotent status tracking.
+- Added collision refusal, optional backups, original restoration and integrity checks.
+- Added failure-injection coverage for installation and uninstall rollback.
+- Tested the upstream skills installer and instruction rendering in a temporary Codex project without starting a model.
+- Added automated no-model smoke tests and documented provider availability limitations.
+
 ## 0.1.1 — Private multi-agent distribution preview (2026-10-16)
 
 - Added canonical distribution metadata and a deterministic six-manifest synchronization script.

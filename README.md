@@ -53,6 +53,18 @@ Its manual install command, only after you register the marketplace yourself:
 
 Read [the compatibility matrix](docs/COMPATIBILITY.md) for native formats, scope, auth limitations and marketplace publication requirements. No user/global installation is performed automatically.
 
+## Free verification and reversible installation
+
+No model request is needed to check the skill packaging, no-model client discovery, or installer rollback:
+
+```bash
+python3 -m unittest discover -s tests -v
+python3 scripts/smoke_free.py --interop --claude-validator
+python3 scripts/install.py install --client codex --scope project --project /path/to/project --dry-run
+```
+
+The installer supports **project or explicitly selected global scope**, with safe failure on collisions, optional backed-up replacement, tamper detection and tracked uninstall. It does not change your Mac's agent configuration unless you run an actual non-dry-run install. See [TESTING](docs/TESTING.md) for usage, client paths and the limits of no-model tests.
+
 ## Relation to other repositories
 
 Architect-Agent-Superpowers is a separate project with its own Claude marketplace manifest. We do not import, edit, or publish its content through TuckBit. A future optional multi-plugin marketplace can reference separately released repositories with their maintainers' approval.
