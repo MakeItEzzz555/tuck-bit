@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and design discussions
+    url: https://github.com/MakeItEzzz555/tuck-bit/discussions
+    about: Ask questions and discuss design choices with the community.
+  - name: Report a security vulnerability privately
+    url: https://github.com/MakeItEzzz555/tuck-bit/security/advisories/new
+    about: Never publish exploits, credentials or unredacted logs in issues.

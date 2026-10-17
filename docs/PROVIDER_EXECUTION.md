@@ -1,12 +1,12 @@
 # TuckBit execution research — provider-specific policies
 
-**Research date:** 2026-10-16. **Evidence type:** published provider docs and the user's earlier local skill, not model internals. These descriptions are subject to vendor updates.
+**Research date:** 2026-10-16. **Evidence type:** published provider documentation and common engineering verification patterns, not model internals. These descriptions are subject to vendor updates.
 
 ## Core decision
 
 The best common denominator is **goal → inspect relevant evidence → implement → verify → summarize**. The depth, delegation style, and native tool/skill loading differ. Avoid assuming every model uses the same private reasoning steps.
 
-The earlier local Codex skill `claude-style-implementation-discipline` used **Fast / Standard / Deep** and the sequence establish contract → inspect → compact strategy → implement → test ladder → final review → evidence receipt. TuckBit adapts that *observable engineering discipline*, not proprietary prompts or private chain of thought. The original user skill remains unchanged.
+TuckBit's **Fast / Standard / Deep** tiers apply a familiar evidence-first engineering cycle: establish the expected outcome, inspect relevant code, choose a scoped approach, implement, verify, then return an evidence-backed handoff. This is observable workflow guidance, not insight into any model's private chain of thought.
 
 ## 1. Codex and OpenAI reasoning models
 

@@ -10,7 +10,7 @@ Give agents the right context, tools, and workflow at the right moment—without
 
 **Task-aware · Host-aware · Portable · MIT-licensed**
 
-[Get started](#quick-start) · [How it works](#how-it-works) · [Agent support](#agent-support) · [Research](docs/PROVIDER_EXECUTION.md) · [Roadmap](docs/ROADMAP.md)
+[Get started](#quick-start) · [How it works](#how-it-works) · [Agent support](#agent-support) · [Contribute](CONTRIBUTING.md) · [Research](docs/PROVIDER_EXECUTION.md) · [Roadmap](docs/ROADMAP.md)
 
 </div>
 
@@ -24,7 +24,7 @@ One request becomes a repository-wide search. Three agents reread the same docum
 
 When activated, the portable skill guides an agent using the user's requirements, applicable host instructions, and authorized tools. The optional local router recommends a workflow from explicitly supplied task data and observable signals; it does not automatically intercept live sessions.
 
-> **Preview status:** The portable skill, multi-agent packaging, reversible installer, task-contract compiler, and deterministic workflow router exist. **Automatic live tool interception and independently measured token savings do not.** This is a private development preview, not a released efficiency claim.
+**Public developer preview (v0.1.2).** The skill, plugin packaging, reversible installer, task-contract compiler, capability registry, and workflow router exist. **Automatic tool interception, broadly verified native activation, and measured token savings are not yet available.** Contributions and independent testing are welcome.
 
 ## How it works
 
@@ -73,28 +73,24 @@ No background service is required for the portable skill. TuckBit does not grant
 ### Option 1 — Discover the skill without installing
 
 ```bash
-# With a local clone:
-npx skills add /path/to/tuck-bit --list
+# Preview the skill before installing:
+npx skills add MakeItEzzz555/tuck-bit --list
 ```
 
-When the repository becomes public, the intended community command is:
+Install the standard Agent Skill with the community installer:
 
 ```bash
 npx skills add MakeItEzzz555/tuck-bit
 ```
 
-**The repository is private right now**, so the public GitHub command is not a usable anonymous install yet.
+Review the skill and confirm the agent and installation scope before installing. The standalone skill provides instructions; optional Python registry/profiler utilities require a full source checkout.
 
-For Claude Code, after explicitly adding the authenticated private marketplace, the intended in-client install command is:
-
-    /plugin install tuck-bit --marketplace MakeItEzzz555/tuck-bit
-
-This is a documentation example—not an installation performed by TuckBit.
+Claude Code also has a plugin/marketplace manifest; see the [compatibility guide](docs/COMPATIBILITY.md) for manual opt-in installation. This does not imply an official marketplace listing.
 
 ### Option 2 — Use the Python preview (no AI tokens)
 
 ```bash
-git clone git@github.com:MakeItEzzz555/tuck-bit.git
+git clone https://github.com/MakeItEzzz555/tuck-bit.git
 cd tuck-bit
 
 python3 scripts/tuckbit.py doctor
@@ -227,6 +223,7 @@ Run all local checks at zero model-token cost:
 
 ```bash
 python3 -m unittest discover -s tests -v
+python3 scripts/public_audit.py
 python3 scripts/sync_distributions.py --check
 python3 scripts/smoke_free.py --interop --claude-validator
 ```
@@ -244,11 +241,24 @@ It deliberately prioritizes:
 - **Verified quality over vanity metrics:** no made-up cost reduction graphs or “10×” claims.
 - **Reversibility and local privacy:** no silent global hooks, credentials indexing or background scraping.
 
+## Help build the next version
+
+We'd especially value feedback from people who use **Codex, Claude Code, Gemini CLI, Cursor, OpenCode, or Copilot** on real repositories.
+
+- Reproducible **native skill activation** reports using non-sensitive sample projects.
+- Public benchmark tasks comparing equivalent *correct outcomes*.
+- Reviews of install/uninstall paths, hook opt-in boundaries and untrusted skill/MCP metadata.
+- Provider documentation fixes, regression tests and onboarding improvements.
+
+**[Report a bug or feature request](https://github.com/MakeItEzzz555/tuck-bit/issues/new/choose)** · **[Browse issues](https://github.com/MakeItEzzz555/tuck-bit/issues)** · **[Join discussions](https://github.com/MakeItEzzz555/tuck-bit/discussions)**
+
+For security vulnerabilities, use GitHub **private vulnerability reporting** rather than a public issue; see [SECURITY.md](SECURITY.md).
+
 ## Research, architecture and contribution
 
-[Capability index](docs/CAPABILITY_REGISTRY.md) · [Profiler](docs/TELEMETRY.md) · [Provider execution research](docs/PROVIDER_EXECUTION.md) · [Opt-in hook adapters](docs/HOOKS.md) · [Task-aware design](docs/TASK_AWARE.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md) · [Security](SECURITY.md) · [Tests](docs/TESTING.md) · [Contributing](CONTRIBUTING.md)
+[Privacy](docs/PRIVACY.md) · [Capability index](docs/CAPABILITY_REGISTRY.md) · [Profiler](docs/TELEMETRY.md) · [Provider execution research](docs/PROVIDER_EXECUTION.md) · [Opt-in hook adapters](docs/HOOKS.md) · [Task-aware design](docs/TASK_AWARE.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md) · [Security](SECURITY.md) · [Tests](docs/TESTING.md) · [Contributing](CONTRIBUTING.md)
 
-The project is currently developed privately. When evidence-based beta tests and onboarding are ready, the repository and skill can be released publicly under the [MIT license](LICENSE).
+TuckBit is **public and MIT-licensed**, but remains an early developer preview. Contributions, issue reports and reproducible experiments are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md), the [public roadmap](docs/ROADMAP.md), and [SECURITY.md](SECURITY.md) before sharing logs or code.
 
 ---
 

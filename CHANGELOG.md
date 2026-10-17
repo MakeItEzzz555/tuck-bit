@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.1.2 — Private metadata registry and telemetry preview (2026-10-16)
+## Unreleased — public onboarding and community preparation
+
+- Corrected public install and compatibility documentation; added open contributor and security reporting guidance.
+- Added a broad public roadmap while retaining the implementation roadmap in a separate private workspace.
+- Prepared issue/PR templates, public-source privacy checks, and GitHub secret scanning / vulnerability reporting protections.
+
+## 0.1.2 — Metadata registry and telemetry preview (2026-10-16)
 
 - Added explicit-root Agent Skills discovery and optional tool metadata catalog with SHA-256 freshness verification, size limits and fail-closed snapshot validation.
 - Added advisory lexical capability matching to the existing workflow router, without executing or authorizing tools.
@@ -29,7 +35,7 @@
 - Tested the upstream skills installer and instruction rendering in a temporary Codex project without starting a model.
 - Added automated no-model smoke tests and documented provider availability limitations.
 
-## 0.1.1 — Private multi-agent distribution preview (2026-10-16)
+## 0.1.1 — Multi-agent distribution preview (2026-10-16)
 
 - Added canonical distribution metadata and a deterministic six-manifest synchronization script.
 - Added a Claude Code marketplace, Codex local marketplace/compatibility manifest, Gemini CLI extension, and portable Agent Plugin packaging for Cursor and compatible hosts.
@@ -38,10 +44,10 @@
 - Added deterministic manifest and policy tests and CI checks.
 - Verified Claude Code marketplace in strict mode and confirmed that the skills CLI discovers the tuck-bit skill locally without installing it.
 
-## 0.1.0 — Private Phase 1 foundation (2026-10-16)
+## 0.1.0 — Phase 1 foundation (2026-10-16)
 
 - Portable skill and six on-demand playbooks.
 - Read-only scoped policy inspector and initial tests.
-- Private GitHub repository and CI foundation.
+- GitHub repository and CI foundation.
 
 No general availability or benchmarked token savings are claimed.

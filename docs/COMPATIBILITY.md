@@ -34,13 +34,13 @@ Portable skill via upstream skills CLI, for a checked-out local directory:
     npx skills add /absolute/path/to/tuck-bit --list
     npx skills add /absolute/path/to/tuck-bit --skill tuck-bit
 
-After public release users can run:
+For this public repository, users can run:
 
     npx skills add MakeItEzzz555/tuck-bit
 
 Global installation is an explicit choice using the CLI's -g flag. The upstream CLI handles the selected agents' native folders. Review source and dependency before executing npm-based tools.
 
-Claude Code marketplace (private access requires a working authenticated Git source):
+Claude Code marketplace (manual, opt-in; verify against your installed client version):
 
     claude plugin validate .
     claude plugin marketplace add MakeItEzzz555/tuck-bit
@@ -60,7 +60,7 @@ Codex developer plugin / local marketplace (where supported):
 
 These commands are *examples only*: TuckBit does not execute them during setup. We have not installed TuckBit in any agent or claimed real runtime activation.
 
-## External marketplaces vs private catalogs
+## Native marketplaces versus skill compatibility
 
 - Claude: marketplace.json in this repo, plus potential public Anthropic directory submission later.
 - Codex/ChatGPT developer plugins: local repo catalog; public directory submission is distinct.
@@ -70,15 +70,15 @@ These commands are *examples only*: TuckBit does not execute them during setup. 
 - OpenCode: native skill folders; runtime plugin code and npm packaging would only be added if meaningful integrations justify it.
 - Other agents: provide standards-compliant skill, do not claim a plugin marketplace where no official route is documented.
 
-Do not mix Architect-Agent-Superpowers into TuckBit's own marketplace manifest. A later publisher-wide marketplace may index both separately versioned repositories without copying or modifying their source.
+Do not bundle unrelated projects into TuckBit's plugin marketplace. A separate publisher-wide catalog should reference independently versioned packages rather than copy or silently modify other repositories.
 
 ## Important limitations
 
 - Skills guide behavior; they do not intercept tool usage or enforce budgets across all clients.
 - Not all agent hosts parse optional frontmatter fields the same way.
 - Skill discoverability and actual activation need independent tests on each supported host.
-- A private repository may require special authentication for some package managers, galleries and marketplace services.
-- No public listing, endorsement, installation count, verified token savings, or cross-client runtime success is claimed.
+- A public source repository does not automatically mean it is listed in any official plugin directory.
+- No official marketplace listing, endorsement, installation count, verified token savings, or cross-client runtime success is claimed.
 
 ## References
 

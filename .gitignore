@@ -11,3 +11,21 @@ __pycache__/
 *.log
 dist/
 build/
+
+
+# Do not accidentally publish private session data or credentials
+*.jsonl
+*.har
+*.pem
+*.p12
+*.pfx
+*.key
+*.xcresult/
+.npmrc
+.netrc
+private/
+internal/
+sessions/
+traces/
+captures/
+secret-scans/

@@ -10,7 +10,7 @@ Research and local validation date: 2026-10-16.
 
 **Level 3: Real activation and task-quality evaluations (pending).** A capable agent model must decide whether to load the skill and follow its guidance in controlled tasks. Packaging tests cannot demonstrate that behavior. Use a disposable repository, approved permissions, pinned tasks and quality comparisons once an available model is chosen.
 
-The Mac has local Ollama models qwen3-coder:30b and llama3.1:8b. These could enable subscription-free model experiments but may consume significant local CPU/GPU/RAM. Do not run them automatically. Ollama testing also does not demonstrate native Claude/Codex skill activation.
+For subscription-free behavioral experiments, contributors may use their own locally hosted models. Local inference can consume substantial CPU/GPU/RAM and does **not** demonstrate native Claude/Codex skill activation.
 
 ## Run the free tests
 
@@ -60,7 +60,7 @@ Certain runtimes also read overlapping alias directories, especially .agents/ski
 
 ## Limits of current environment
 
-Confirmed Mac CLI executables: Codex, Claude Code, Python, npm/npx, Git and GitHub CLI. Gemini CLI, OpenCode CLI, Cursor CLI and Copilot CLI were not on PATH at inspection time. GitHub CLI v2.88.1 did not support the preview `gh skill` command. The provider-dependent activation tests have not run.
+The original validation was performed on a macOS development environment with Python, Git, npm/npx and Claude Code. Provider-dependent activation tests remain pending and may require installing each host CLI. Availability of experimental publishing tools depends on versions; do not claim untested marketplace support.
 
 ## Future quality tests
 

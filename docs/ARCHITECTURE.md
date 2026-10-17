@@ -23,7 +23,7 @@ Tools execute through their original permission mechanisms. Skill content is beh
 
 ## Scope
 
-Source under this repo only. No global modifications; no changes to Architect-Agent-Superpowers or DynamicIsland; no automatic model invocation. Performance targets require A/B evaluation against correct outcomes.
+Source under this repo only. No global modifications; no changes to unrelated repositories; no automatic model invocation. Performance targets require A/B evaluation against correct outcomes.
 
 ## Task-conditioned planning — experimental Phase 1 addition
 

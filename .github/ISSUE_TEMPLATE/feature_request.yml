@@ -1,0 +1,36 @@
+name: Feature or integration proposal
+description: Suggest a focused, backwards-compatible improvement.
+title: "[Feature] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check existing issues and cite official provider APIs where applicable.
+        Prefer opt-in behavior and correctness-preserving optimizations.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and motivating workflow
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior and scope
+      description: Include safety boundaries, fallbacks and compatibility.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: How could we verify correctness and benefit?
+    validations:
+      required: true
+  - type: input
+    id: reference
+    attributes:
+      label: Official provider documentation link (if applicable)
+      placeholder: "https://..."
+    validations:
+      required: false

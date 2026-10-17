@@ -1,23 +1,25 @@
-# Phase 1 research pointers (2026-10-16)
+# TuckBit — research and evidence boundaries
 
-Primary specifications to validate during implementation:
+This public document summarizes technical assumptions, not any contributor's computer setup, account configuration, local project inventory or private work.
 
-- Agent Skills: https://agentskills.io/specification
-- Claude Code plugins: https://code.claude.com/docs/en/plugins
+## Primary references
+
+- Agent Skills specification: https://agentskills.io/specification
+- Claude Code skills and plugins: https://code.claude.com/docs/en/skills
 - Claude Code marketplaces: https://code.claude.com/docs/en/plugin-marketplaces
 - Codex skills: https://developers.openai.com/codex/skills
-- GitHub private repository CLI: https://cli.github.com/manual/gh_repo_create
+- Gemini CLI extension reference: https://geminicli.com/docs/extensions/reference/
+- MCP tool specification: https://modelcontextprotocol.io/specification/2025-11-25/server/tools
+- Community skills installer: https://github.com/vercel-labs/skills
 
-## Findings
+## Documented behavior versus hypotheses
 
-- A portable skill's advice cannot intercept or enforce arbitrary tool calls. Runtime integration is optional, provider-specific, and may have additional context overhead.
-- Installed MCP tool definitions can be expensive, but some providers already offer native deferred loading. Do not duplicate native capabilities without empirical benefit.
-- Parallel agent contexts are separate; each worker may independently reread shared files and project instructions. Task-local context and external evidence receipts reduce duplication.
-- Effective optimization measures cost per verified successful task, not absolute token reduction.
-- A marketplace catalogs plugins for distribution; it is not automatically a runtime orchestrator.
-- DynamicIsland historical workflows showed many repeated log views, terminal queries, and test calls, but not every repeat was waste. Controlled task benchmarks should separate necessary checks from redundant work.
+A portable skill is an instruction package. It cannot independently intercept every tool, read hidden host instructions, inspect private chain-of-thought or override permissions. Stronger controls need explicitly authorized, supported runtime integration.
 
-## Mac inspection
+Subagents generally have separate model contexts and may redundantly retrieve evidence from a shared repository. That creates an optimization opportunity, but delegation can also increase total tokens and integration overhead.
 
-The user's Mac had Git, GitHub CLI, Python, Node, Claude, Codex. GitHub CLI authenticated as MakeItEzzz555.
-Architect-Agent-Superpowers already had a .claude-plugin/marketplace.json and dirty worktree. We leave it unchanged.
+Some hosts already offer native on-demand tool discovery, skill activation and prompt caching. TuckBit should use existing host facilities where possible, not duplicate them without a measured benefit.
+
+The sample traces and routing scenarios here are synthetic. A credible performance claim requires comparable real tasks, correct final results, privacy-preserving measurement and repeated trials.
+
+See [provider research](PROVIDER_EXECUTION.md), [metadata registry](CAPABILITY_REGISTRY.md), and [trace methodology](TELEMETRY.md).

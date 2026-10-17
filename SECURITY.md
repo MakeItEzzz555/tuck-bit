@@ -1,5 +1,25 @@
 # Security and privacy
 
+## Reporting a vulnerability
+
+Please **do not disclose security issues in public GitHub issues, pull requests, screenshots, or Discussions**. Use the repository's [GitHub private vulnerability reporting](https://github.com/MakeItEzzz555/tuck-bit/security/advisories/new) to provide a minimal proof of concept, impact, affected version and suggested mitigation. Do not include real access tokens, private datasets or live customer data. Reports are reviewed by repository maintainers; no guaranteed response-time SLA is currently offered.
+
+TuckBit is a **developer preview** and does not provide security isolation or permission enforcement. Review scripts before installing, especially when using global scope or manually configuring host hooks. Stop using a questionable integration until it is investigated.
+
+## Privacy and trusted boundaries
+
+- The standalone skill is instruction-only. It cannot access hidden system/developer policies or internal chain-of-thought.
+- The repository CLI's registry reads only explicitly supplied local metadata; it does not connect to MCP servers.
+- The optional profiler accepts redacted numeric/hashed records and rejects raw prompts and logs by schema.
+- The optional Claude/Gemini entry hooks are **disabled unless explicitly configured by the user**.
+- Never submit raw prompts, execution transcripts, credentials, local filesystem inventories, screenshot metadata, or private paths in public issues/PRs.
+- All live tool permissions must remain controlled by the original agent host.
+
+## Repository security settings
+
+This public repository uses GitHub secret scanning and push protection, plus private vulnerability reporting. These checks are helpful but not complete; contributors must review changes and reachable Git history for inadvertent disclosures before publishing.
+
+
 TuckBit is a **guidance skill**, not a sandbox or an authority to bypass host approval.
 
 - Never store credentials, private tool-output transcripts, connection secrets or API keys in the skill index.

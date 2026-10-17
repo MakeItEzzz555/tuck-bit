@@ -1,4 +1,4 @@
-# Local capability metadata registry — private preview
+# Local capability metadata registry — public developer preview
 
 The registry is a read-only discovery and freshness **advisor**, not an MCP server, shell router or provider permission broker.
 
