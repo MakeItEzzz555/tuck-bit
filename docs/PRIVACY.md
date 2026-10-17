@@ -26,6 +26,12 @@ The repository enables GitHub secret scanning, push protection and private vulne
 
 Never paste actual credentials or proprietary examples into public issues or PRs. Report vulnerabilities privately using the [Security policy](../SECURITY.md).
 
+The filename guard flags exact sensitive basenames and selected extensions (case-insensitive),
+so `.env.example` is allowed while `.env` is flagged. The home-path pattern is deliberately
+narrow and substring-based: a relative example with a home-like `Users` segment can also be flagged.
+Use `<HOME>` or `<user>` placeholders in public examples. If file discovery or reading fails,
+the audit exits with code `2`; findings exit `1`, and a completed clean scan exits `0`.
+
 ## Git history and retention
 
 Files removed from the current branch can remain accessible in earlier public Git commits, forks, caches or clones. A normal commit does **not** erase previously public information. Treat any accidentally exposed credential as compromised, revoke/rotate it, and coordinate remediation with maintainers; history rewriting is not automatic and needs explicit review.
