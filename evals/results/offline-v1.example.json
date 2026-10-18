@@ -1,0 +1,752 @@
+{
+  "budget": {
+    "max_operations": 10,
+    "max_wall_ms": 10000
+  },
+  "bundle_id": "offline-bundle-v1",
+  "bundle_sha256": "84e62040e2cde0cbf336cf5e9eb4d72db84409332337b37ec8d5a40b154d9297",
+  "by_task": {
+    "normalize-labels": {
+      "baseline": {
+        "failures": 0,
+        "pass_rate": 1.0,
+        "passes": 4,
+        "tool_call_distribution": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "trials": 4,
+        "wall_ms_distribution": [
+          19.087,
+          14.428,
+          11.381,
+          15.681
+        ]
+      },
+      "tuckbit": {
+        "failures": 0,
+        "pass_rate": 1.0,
+        "passes": 4,
+        "tool_call_distribution": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "trials": 4,
+        "wall_ms_distribution": [
+          11.775,
+          11.765,
+          12.262,
+          11.781
+        ]
+      }
+    },
+    "sort-inventory": {
+      "baseline": {
+        "failures": 0,
+        "pass_rate": 1.0,
+        "passes": 4,
+        "tool_call_distribution": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "trials": 4,
+        "wall_ms_distribution": [
+          12.703,
+          13.519,
+          14.795,
+          11.53
+        ]
+      },
+      "tuckbit": {
+        "failures": 0,
+        "pass_rate": 1.0,
+        "passes": 4,
+        "tool_call_distribution": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "trials": 4,
+        "wall_ms_distribution": [
+          15.777,
+          13.532,
+          12.003,
+          13.272
+        ]
+      }
+    },
+    "sort-repeated-values": {
+      "baseline": {
+        "failures": 0,
+        "pass_rate": 1.0,
+        "passes": 4,
+        "tool_call_distribution": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "trials": 4,
+        "wall_ms_distribution": [
+          12.076,
+          11.611,
+          20.237,
+          12.339
+        ]
+      },
+      "tuckbit": {
+        "failures": 0,
+        "pass_rate": 1.0,
+        "passes": 4,
+        "tool_call_distribution": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "trials": 4,
+        "wall_ms_distribution": [
+          12.806,
+          11.505,
+          11.928,
+          16.213
+        ]
+      }
+    }
+  },
+  "claim_of_model_efficiency": false,
+  "conditions_are_simulated": true,
+  "execution_order": "baseline-first on odd repetitions, tuckbit-first on even repetitions",
+  "fixture_tree_sha": "3c671c9cc69b40ddbaad772fc2791a0336c46690",
+  "git_version": "git version 2.52.0",
+  "kind": "offline_harness_self_test_NOT_agent_benchmark",
+  "limitations": [
+    "Both conditions execute identical deterministic Python adapters; no AI coding agents are invoked.",
+    "Token usage, model cost, human review, and human editing time are unavailable, not zero.",
+    "Pass distributions validate the harness, not TuckBit's performance.",
+    "A separate approved native agent adapter and real repeated trials are needed for efficiency claims."
+  ],
+  "mandatory_checks": [
+    "expected_output",
+    "source_unchanged",
+    "clean_tracked_files"
+  ],
+  "model": null,
+  "model_version": null,
+  "python_version": "3.13.12",
+  "records": [
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 112
+      },
+      "re_runs": 0,
+      "repetition": 1,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-inventory",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 12.703
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 112
+      },
+      "re_runs": 0,
+      "repetition": 1,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-inventory",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 15.777
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 133
+      },
+      "re_runs": 0,
+      "repetition": 1,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "normalize-labels",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 19.087
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 133
+      },
+      "re_runs": 0,
+      "repetition": 1,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "normalize-labels",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 11.775
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 126
+      },
+      "re_runs": 0,
+      "repetition": 1,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-repeated-values",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 12.076
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 126
+      },
+      "re_runs": 0,
+      "repetition": 1,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-repeated-values",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 12.806
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 112
+      },
+      "re_runs": 0,
+      "repetition": 2,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-inventory",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 13.532
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 112
+      },
+      "re_runs": 0,
+      "repetition": 2,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-inventory",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 13.519
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 133
+      },
+      "re_runs": 0,
+      "repetition": 2,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "normalize-labels",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 11.765
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 133
+      },
+      "re_runs": 0,
+      "repetition": 2,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "normalize-labels",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 14.428
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 126
+      },
+      "re_runs": 0,
+      "repetition": 2,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-repeated-values",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 11.505
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 126
+      },
+      "re_runs": 0,
+      "repetition": 2,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-repeated-values",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 11.611
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 112
+      },
+      "re_runs": 0,
+      "repetition": 3,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-inventory",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 14.795
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 112
+      },
+      "re_runs": 0,
+      "repetition": 3,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-inventory",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 12.003
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 133
+      },
+      "re_runs": 0,
+      "repetition": 3,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "normalize-labels",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 11.381
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 133
+      },
+      "re_runs": 0,
+      "repetition": 3,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "normalize-labels",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 12.262
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 126
+      },
+      "re_runs": 0,
+      "repetition": 3,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-repeated-values",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 20.237
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 126
+      },
+      "re_runs": 0,
+      "repetition": 3,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-repeated-values",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 11.928
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 112
+      },
+      "re_runs": 0,
+      "repetition": 4,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-inventory",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 13.272
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 112
+      },
+      "re_runs": 0,
+      "repetition": 4,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-inventory",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 11.53
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 133
+      },
+      "re_runs": 0,
+      "repetition": 4,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "normalize-labels",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 11.781
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 133
+      },
+      "re_runs": 0,
+      "repetition": 4,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "normalize-labels",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 15.681
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 126
+      },
+      "re_runs": 0,
+      "repetition": 4,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-repeated-values",
+      "tool_operations": 3,
+      "treatment": "tuckbit",
+      "wall_ms": 16.213
+    },
+    {
+      "check_results": {
+        "clean_tracked_files": true,
+        "expected_output": true,
+        "source_unchanged": true,
+        "within_operation_budget": true,
+        "within_wall_budget": true
+      },
+      "human_editing_ms": null,
+      "human_review_ms": null,
+      "passed": true,
+      "profiler": {
+        "event_count": 3,
+        "potential_identical_repeats": 0,
+        "total_result_bytes": 126
+      },
+      "re_runs": 0,
+      "repetition": 4,
+      "reported_tokens": null,
+      "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+      "task_id": "sort-repeated-values",
+      "tool_operations": 3,
+      "treatment": "baseline",
+      "wall_ms": 12.339
+    }
+  ],
+  "schema": 1,
+  "starting_commit": "653dd13b005552b3e5b2a1ee5c6bc6c5a50ce5cf",
+  "starting_state_restored_per_trial": true,
+  "total_passes": 24,
+  "total_trials": 24,
+  "version": "v1"
+}

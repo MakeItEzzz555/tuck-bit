@@ -145,6 +145,18 @@ python3 scripts/trace_profiler.py compare \
 
 The trace files above are **synthetic test fixtures, not real token savings**. No user-agent session is queried. See [metadata registry](docs/CAPABILITY_REGISTRY.md) and [safe telemetry](docs/TELEMETRY.md).
 
+## Reproducible benchmark bundles (offline harness preview)
+
+TuckBit now includes a **no-model, repeated-task harness** for testing evaluation infrastructure. It builds a disposable Git fixture, creates a **fresh worktree from the same commit for every trial**, alternates baseline/treatment order, and reports correctness and operation/time distributions for each task.
+
+```bash
+python3 scripts/repeat_bundle.py \
+  --bundle evals/bundles/offline-v1.json \
+  --output /tmp/tuckbit-offline-run.json
+```
+
+The example contains **three tasks, four repetitions, two identical Python conditions** (24 offline trials). This is **not an AI-agent benchmark**, and token/cost/human-review metrics are unavailable. The real next step is a consent-based, provider-native repeated-run adapter. See [reproducible bundle methodology](docs/REPRODUCIBLE_BUNDLES.md) and [the example result](evals/results/offline-v1.example.json).
+
 ## Agent support
 
 **One canonical Agent Skill. Provider-specific policies only where the runtime genuinely differs.**

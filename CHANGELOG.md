@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — reproducible offline task-bundle harness
+
+- Added versioned public fixture tasks that repeat from the same disposable Git commit in fresh worktrees.
+- Added per-task condition order counterbalancing, mandatory checks, budgets, failure distributions and profiler-compatible event summaries.
+- Published an example 24-trial offline report with explicit no-model/no-savings limitations and CI checks.
+
 ## Unreleased — public onboarding and community preparation
 
 - Corrected public install and compatibility documentation; added open contributor and security reporting guidance.

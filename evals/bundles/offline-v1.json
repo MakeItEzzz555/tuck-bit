@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "bundle_id": "offline-bundle-v1",
+  "version": "v1",
+  "kind": "offline_fixture_only",
+  "repetitions": 4,
+  "budget": {
+    "max_wall_ms": 10000,
+    "max_operations": 10
+  },
+  "mandatory_checks": [
+    "expected_output",
+    "source_unchanged",
+    "clean_tracked_files"
+  ],
+  "tasks": [
+    {
+      "id": "sort-inventory",
+      "adapter": "sort_lines",
+      "input": "zeta\nalpha\nbeta\n",
+      "expected": "alpha\nbeta\nzeta\n"
+    },
+    {
+      "id": "normalize-labels",
+      "adapter": "trim_and_upper",
+      "input": "   first item  \n  second item\n",
+      "expected": "FIRST ITEM\nSECOND ITEM\n"
+    },
+    {
+      "id": "sort-repeated-values",
+      "adapter": "sort_lines",
+      "input": "gamma\nbeta\ngamma\nalpha\n",
+      "expected": "alpha\nbeta\ngamma\ngamma\n"
+    }
+  ]
+}

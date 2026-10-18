@@ -16,6 +16,12 @@ This is a **directional** roadmap—not a promised release schedule. The detaile
 
 These features do **not** yet prove real token savings, automatically intercept tool calls or guarantee native activation across all clients.
 
+## Reproducible-work foundation now available
+
+- A strictly offline, opt-in repeated fixture harness from one pinned disposable Git commit.
+- Counterbalanced treatment order, identical mandated checks and budgets, and per-task pass/failure distributions.
+- A published example report expressly labeled **harness self-test**, not real-agent savings.
+
 ## Next: trustworthy compatibility and benchmarks
 
 - Test native skill activation for supported coding agents using disposable projects and approved permissions.
