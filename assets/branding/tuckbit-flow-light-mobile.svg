@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="760" viewBox="0 0 600 760" role="img" aria-labelledby="title desc">
+<title id="title">TuckBit task-aware mobile workflow</title>
+<desc id="desc">Step one: preserve user intent; step two: route relevant tools and context; step three: verify required results.</desc>
+<rect x="1" y="1" width="598" height="758" rx="32" fill="#FFFFFF" stroke="#D4DFEC" />
+<rect x="28" y="33" width="544" height="180" rx="24" fill="#F4F8FD" stroke="#D4DFEC" />
+<rect x="58" y="60" width="62" height="45" rx="11" fill="#1465E8" />
+<text x="89" y="92" text-anchor="middle" fill="#FFFFFF" font-size="23" font-weight="700" font-family="Arial,sans-serif">01</text>
+<text x="139" y="93" fill="#42566E" font-size="23" letter-spacing="2" font-weight="700" font-family="Arial,sans-serif">REQUEST</text>
+<text x="58" y="145" fill="#152337" font-size="36" font-weight="700" font-family="Arial,sans-serif">Respect the task</text>
+<text x="58" y="187" fill="#42566E" font-size="25" font-family="Arial,sans-serif">Intent + constraints</text>
+<path d="M300 220 v25 m-9 -9 l9 9 9 -9" fill="none" stroke="#1465E8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="28" y="263" width="544" height="180" rx="24" fill="#F4F8FD" stroke="#D4DFEC" />
+<rect x="58" y="290" width="62" height="45" rx="11" fill="#1465E8" />
+<text x="89" y="322" text-anchor="middle" fill="#FFFFFF" font-size="23" font-weight="700" font-family="Arial,sans-serif">02</text>
+<text x="139" y="323" fill="#42566E" font-size="23" letter-spacing="2" font-weight="700" font-family="Arial,sans-serif">ROUTE</text>
+<text x="58" y="375" fill="#152337" font-size="36" font-weight="700" font-family="Arial,sans-serif">Focus the work</text>
+<text x="58" y="417" fill="#42566E" font-size="25" font-family="Arial,sans-serif">Relevant context + tools</text>
+<path d="M300 450 v25 m-9 -9 l9 9 9 -9" fill="none" stroke="#1465E8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="28" y="493" width="544" height="180" rx="24" fill="#F4F8FD" stroke="#D4DFEC" />
+<rect x="58" y="520" width="62" height="45" rx="11" fill="#1465E8" />
+<text x="89" y="552" text-anchor="middle" fill="#FFFFFF" font-size="23" font-weight="700" font-family="Arial,sans-serif">03</text>
+<text x="139" y="553" fill="#42566E" font-size="23" letter-spacing="2" font-weight="700" font-family="Arial,sans-serif">VERIFY</text>
+<text x="58" y="605" fill="#152337" font-size="36" font-weight="700" font-family="Arial,sans-serif">Prove the result</text>
+<text x="58" y="647" fill="#42566E" font-size="25" font-family="Arial,sans-serif">Required checks + receipt</text>
+<text x="300" y="740" text-anchor="middle" fill="#42566E" font-size="19" font-family="Arial,sans-serif">Advisory only · Host permissions remain in control</text>
+</svg>

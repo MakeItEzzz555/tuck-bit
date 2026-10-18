@@ -24,7 +24,7 @@ The screenshots and projects represent different categories and ages. Star count
 ## Applied TuckBit design decisions
 
 - Preserve the existing theme-aware official logo, rather than copy another project's mascots or branding.
-- Use a new self-hosted **flat, accessible two-theme SVG workflow strip** summarizing request → routing → verification. It depicts actual advisory semantics, not a simulated live product UI.
+- Use self-hosted **flat, accessible light/dark desktop and mobile SVG workflows** summarizing request → routing → verification. It depicts actual advisory semantics, not a simulated live product UI.
 - Move a **copyable novice agent-install prompt** near the top. It requests project scope, a dry-run/preview and approval; it does not execute commands merely when pasted into documentation.
 - Put the supported discovery and installation commands immediately below for experienced developers.
 - Keep the real provider-status limitations, security notes and benchmark evidence visible. Neither simulated fixtures nor marketing claims are represented as actual model savings.

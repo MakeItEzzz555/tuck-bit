@@ -49,7 +49,9 @@ class ReadmeOnboardingTests(unittest.TestCase):
         self.assertIn("prefers-color-scheme: dark", self.readme)
         self.assertIn("prefers-color-scheme: light", self.readme)
         self.assertIn("alt=\"How TuckBit works:", self.readme)
-        for theme in ("light", "dark"):
+        self.assertIn("(max-width: 600px) and (prefers-color-scheme: dark)", self.readme)
+        self.assertIn("(max-width: 600px) and (prefers-color-scheme: light)", self.readme)
+        for theme in ("light", "dark", "light-mobile", "dark-mobile"):
             file = ROOT / "assets/branding" / ("tuckbit-flow-" + theme + ".svg")
             self.assertTrue(file.is_file())
             svg = ET.parse(file).getroot()
