@@ -14,7 +14,7 @@ Give agents the right context, tools, and workflow at the right moment—without
 
 **Task-aware · Host-aware · Portable · MIT-licensed**
 
-[Get started](#quick-start) · [How it works](#how-it-works) · [Agent support](#agent-support) · [Contribute](CONTRIBUTING.md) · [Research](docs/PROVIDER_EXECUTION.md) · [Roadmap](docs/ROADMAP.md)
+[Get started](#quick-start) · [Documentation hub](docs/wiki/README.md) · [Benchmarks](docs/PUBLIC_BENCHMARK_PROTOCOL.md) · [Agent support](#agent-support) · [Contribute](CONTRIBUTING.md) · [Support](SUPPORT.md) · [Roadmap](docs/ROADMAP.md)
 
 </div>
 
