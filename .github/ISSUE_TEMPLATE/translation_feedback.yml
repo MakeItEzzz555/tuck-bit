@@ -1,0 +1,51 @@
+name: Translation or localization feedback
+description: Correct a translated TuckBit document or skill without sharing private data.
+title: "[i18n] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        TuckBit's English skill is canonical. The translated core skills are community-review previews; deeper references currently preserve English fallback text.
+        Please use public examples and avoid credentials, private code or raw agent transcripts.
+  - type: dropdown
+    id: locale
+    attributes:
+      label: Translation language
+      options:
+        - Spanish (es)
+        - French (fr)
+        - German (de)
+        - Portuguese (pt)
+        - Italian (it)
+        - Greek (el)
+        - Turkish (tr)
+        - Russian (ru)
+        - Arabic (ar)
+        - Hindi (hi)
+        - Japanese (ja)
+        - Korean (ko)
+        - Simplified Chinese (zh-CN)
+        - Traditional Chinese (zh-TW)
+    validations:
+      required: true
+  - type: input
+    id: filename
+    attributes:
+      label: Public file or Wiki page
+      placeholder: "docs/i18n/el/README.md"
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Existing translation and suggested correction
+      description: Explain the meaning that is missing or inaccurate, especially security constraints.
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Public data safety
+      options:
+        - label: My report contains no private prompts, credentials, or proprietary source.
+          required: true

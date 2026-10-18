@@ -1,6 +1,7 @@
 **TuckBit Wiki**
 
 - [[Home]]
+- [Languages / Μεταφράσεις / 翻译](https://github.com/MakeItEzzz555/tuck-bit/blob/main/docs/i18n/README.md)
 - [[Getting Started]]
 - [[Agent Compatibility]]
 - [[Benchmarks and Evidence]]

@@ -12,3 +12,7 @@ These files are the **reviewable source** for TuckBit's GitHub Wiki. Wiki pages 
 - [_Sidebar](./_Sidebar.md)
 
 See [first-page setup and publishing](../WIKI_PUBLISHING.md). This source intentionally excludes private research artifacts, grader answers, and operational credentials. The canonical policies remain the main README, SECURITY.md and docs/ guides.
+
+## Multilingual onboarding
+
+See [14 localized Wiki landing-page sources](i18n/) and the [language index](../i18n/README.md). The live Wiki is separately maintained and is not synchronized by a normal code PR.

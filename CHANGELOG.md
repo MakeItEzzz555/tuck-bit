@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — multilingual accessibility preview (2026-10-18)
+
+- Added 14 human-language onboarding guides and translated Wiki landing-page sources, plus an English-indexed language switcher.
+- Added 14 optional, project-installable translated core Agent Skills without changing the canonical English skill or six distribution manifests.
+- Kept eight technical playbooks per locale as **explicitly labeled canonical English fallbacks** until complete translations and independent language review exist; do not represent the repository or all skills as fully translated.
+- Added deterministic locale integrity/provenance validation and a translation-feedback issue template; no inference or host permission changes.
+
 ## Unreleased — reproducible offline task-bundle harness
 
 - Added versioned public fixture tasks that repeat from the same disposable Git commit in fresh worktrees.

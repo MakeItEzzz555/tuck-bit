@@ -4,6 +4,10 @@
 
 > **Status: public developer preview.** Portable instructions, explicit local tooling and an offline repeated-task harness are available. Automatic interception, broad host-native activation, and repeatable token savings are **not established** by the public release.
 
+## Languages
+
+[English](https://github.com/MakeItEzzz555/tuck-bit/wiki) · [14 translated onboarding pages](https://github.com/MakeItEzzz555/tuck-bit/blob/main/docs/i18n/README.md) (community-review previews; canonical technical references remain English).
+
 ## Start here
 
 - [[Getting Started]] — skill installation, local CLI previews and safe uninstall.

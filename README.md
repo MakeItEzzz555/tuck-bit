@@ -18,6 +18,10 @@ Give agents the right context, tools, and workflow at the right moment—without
 
 </div>
 
+**Read TuckBit in your language:** [English](README.md) · [Español](docs/i18n/es/README.md) · [Français](docs/i18n/fr/README.md) · [Deutsch](docs/i18n/de/README.md) · [Português](docs/i18n/pt/README.md) · [Italiano](docs/i18n/it/README.md) · [Ελληνικά](docs/i18n/el/README.md) · [Türkçe](docs/i18n/tr/README.md) · [Русский](docs/i18n/ru/README.md) · [العربية](docs/i18n/ar/README.md) · [हिन्दी](docs/i18n/hi/README.md) · [日本語](docs/i18n/ja/README.md) · [한국어](docs/i18n/ko/README.md) · [简体中文](docs/i18n/zh-CN/README.md) · [繁體中文](docs/i18n/zh-TW/README.md)
+
+Localized documentation and core skills are [opt-in previews](docs/i18n/README.md); deeper skill references currently use clearly labeled English fallbacks. Translations are not equivalent to verified host-native activation or a full repository translation.
+
 ---
 
 ### Your coding agent doesn't need every instrument playing at once.
