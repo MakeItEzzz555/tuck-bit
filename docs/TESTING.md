@@ -92,3 +92,13 @@ python3 scripts/trace_profiler.py compare --baseline examples/trace-baseline.syn
 ```
 
 Fixtures are fictional and outcomes are declared. Passing tests demonstrate parser safety and deterministic behavior, **not** model adaptation or token savings. See [registry docs](CAPABILITY_REGISTRY.md) and [telemetry docs](TELEMETRY.md).
+
+
+## Repeated offline bundle acceptance (no AI inference)
+
+```bash
+python3 scripts/repeat_bundle.py --bundle evals/bundles/offline-v1.json \
+  --output /tmp/tuckbit-offline-run.json
+```
+
+Expected: 24/24 offline fixture trials. Inputs come from a versioned manifest. Each run checks out the same temporary fixture commit in a fresh temporary Git worktree. Both labeled conditions execute identical deterministic Python logic; the output is **not** proof of model token savings. See [REPRODUCIBLE_BUNDLES.md](REPRODUCIBLE_BUNDLES.md).

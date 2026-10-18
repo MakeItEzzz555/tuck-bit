@@ -62,3 +62,8 @@ Any future log import must be user-authorized, parse only documented fields, red
 ## Retention and privacy
 
 The profiler is stateless. It does not write output to disk unless the user explicitly redirects stdout. Refrain from storing telemetry inside Git; if saved locally, use a private ignored folder. A compiled digest is an opaque identifier, not proof that an operation was safe, authorized or unnecessary.
+
+
+## Repeated task-bundle infrastructure
+
+For a reproducible **offline** task bundle run, see [REPRODUCIBLE_BUNDLES.md](REPRODUCIBLE_BUNDLES.md). The runner uses disposable Git worktrees and feeds its local read/write/check event records into this profiler. It produces per-task run and failure distributions, but **no real agent inference or token measurements**. Use the outputs only to test the benchmark pipeline, not to advertise efficiency.
