@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — public README onboarding refresh
+
+- Redesigned TuckBit's initial README viewport around existing light/dark branding, a concise workflow graphic and a clear newcomer path.
+- Added a copyable, host-aware and permission-preserving install prompt plus an independent onboarding guide.
+- Added an evidence-bounded discoverability review of six open-source README references and static checks for prompt/asset consistency.
+
 ## Unreleased — multilingual accessibility preview (2026-10-18)
 
 - Added 14 human-language onboarding guides and translated Wiki landing-page sources, plus an English-indexed language switcher.

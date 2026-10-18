@@ -3,65 +3,104 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/branding/tuckbit-logo-dark.png">
   <source media="(prefers-color-scheme: light)" srcset="assets/branding/tuckbit-logo-light.png">
-  <img src="assets/branding/tuckbit-logo-light.png" alt="Tuck-Bit — blue modular icon and wordmark" width="760">
+  <img src="assets/branding/tuckbit-logo-light.png" alt="Tuck-Bit — blue modular icon and wordmark" width="620">
 </picture>
 
 ### Every tool. Right on cue.
 
-**A lightweight execution layer for AI coding agents.**
+**Make your AI coding agent more deliberate about context, tools, and verification.**
 
-Give agents the right context, tools, and workflow at the right moment—without sacrificing correctness.
+TuckBit is an open-source Agent Skill and optional local tooling for task-aware coding workflows. It guides agents toward the relevant evidence and the necessary checks—**without bypassing their own permissions**.
 
-**Task-aware · Host-aware · Portable · MIT-licensed**
+**[Copy the agent install prompt](#install-with-your-ai-agent-no-cli-required)** · **[Install with a command](#install-with-a-command)** · **[How it works](#how-it-works)** · **[Benchmarks](docs/PUBLIC_BENCHMARK_PROTOCOL.md)**
 
-[Get started](#quick-start) · [Documentation hub](docs/wiki/README.md) · [Benchmarks](docs/PUBLIC_BENCHMARK_PROTOCOL.md) · [Agent support](#agent-support) · [Contribute](CONTRIBUTING.md) · [Support](SUPPORT.md) · [Roadmap](docs/ROADMAP.md)
+[![CI](https://github.com/MakeItEzzz555/tuck-bit/actions/workflows/tests.yml/badge.svg)](https://github.com/MakeItEzzz555/tuck-bit/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-2563eb.svg)](LICENSE)
+[![Developer preview](https://img.shields.io/badge/status-developer%20preview-475569.svg)](docs/ROADMAP.md)
 
 </div>
 
-**Read TuckBit in your language:** [English](README.md) · [Español](docs/i18n/es/README.md) · [Français](docs/i18n/fr/README.md) · [Deutsch](docs/i18n/de/README.md) · [Português](docs/i18n/pt/README.md) · [Italiano](docs/i18n/it/README.md) · [Ελληνικά](docs/i18n/el/README.md) · [Türkçe](docs/i18n/tr/README.md) · [Русский](docs/i18n/ru/README.md) · [العربية](docs/i18n/ar/README.md) · [हिन्दी](docs/i18n/hi/README.md) · [日本語](docs/i18n/ja/README.md) · [한국어](docs/i18n/ko/README.md) · [简体中文](docs/i18n/zh-CN/README.md) · [繁體中文](docs/i18n/zh-TW/README.md)
+<div align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/branding/tuckbit-flow-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/branding/tuckbit-flow-light.svg">
+  <img src="assets/branding/tuckbit-flow-light.svg" alt="How TuckBit works: preserve your request, choose relevant context and tools, then verify the result." width="990">
+</picture>
+</div>
 
-Localized documentation and core skills are [opt-in previews](docs/i18n/README.md); deeper skill references currently use clearly labeled English fallbacks. Translations are not equivalent to verified host-native activation or a full repository translation.
+**Public developer preview.** The portable skill, metadata discovery, reversible installer, deterministic router and offline benchmark harness are available. Real cross-provider activation, live tool interception, and verified token savings are **not** established. [See what's implemented](#what-is-actually-implemented) and the [public roadmap](docs/ROADMAP.md).
+
+<details>
+<summary><strong>Read in 14 languages</strong></summary>
+
+**Languages:** [English](README.md) · [Español](docs/i18n/es/README.md) · [Français](docs/i18n/fr/README.md) · [Deutsch](docs/i18n/de/README.md) · [Português](docs/i18n/pt/README.md) · [Italiano](docs/i18n/it/README.md) · [Ελληνικά](docs/i18n/el/README.md) · [Türkçe](docs/i18n/tr/README.md) · [Русский](docs/i18n/ru/README.md) · [العربية](docs/i18n/ar/README.md) · [हिन्दी](docs/i18n/hi/README.md) · [日本語](docs/i18n/ja/README.md) · [한국어](docs/i18n/ko/README.md) · [简体中文](docs/i18n/zh-CN/README.md) · [繁體中文](docs/i18n/zh-TW/README.md)
+
+*Localization is opt-in and remains a preview; some technical reference content falls back to English.* [Localization details](docs/i18n/README.md).
+
+</details>
 
 ---
 
-### Your coding agent doesn't need every instrument playing at once.
+## Install with your AI agent (no CLI required)
 
-One request becomes a repository-wide search. Three agents reread the same documentation. Terminal logs pile up in context. A successful test suite is run again, unchanged.
+**New to GitHub or terminals?** Copy the text below into a coding agent that can access your project files and run commands, such as Codex, Claude Code or another compatible agent. It should explain what it will do and ask for permission before making changes.
 
-**TuckBit aims to cut the unnecessary work—not the thinking that makes good software.**
+<!-- AGENT_INSTALL_PROMPT_START -->
+```text
+Help me install TuckBit as an optional Agent Skill in my CURRENT project.
+Source: https://github.com/MakeItEzzz555/tuck-bit
 
-When activated, the portable skill guides an agent using the user's requirements, applicable host instructions, and authorized tools. The optional local router recommends a workflow from explicitly supplied task data and observable signals; it does not automatically intercept live sessions.
+1. First inspect TuckBit's README, skills/tuck-bit/SKILL.md and installation/compatibility documentation from this official repository. Do not trust unknown mirrors.
+2. Identify which coding-agent host and project skill directory I am using. Prefer a supported, project-scoped installation over a global one.
+3. Show me the files and settings you would change, and ask my approval before downloads, dependency installs, file modifications or any other tool commands.
+4. Prefer the documented Agent Skills installer when supported (npx skills add MakeItEzzz555/tuck-bit), or the repository's reversible Python installer with a dry run first. If neither is available, explain a manual copy option; do not invent unsupported commands.
+5. Preserve existing skills/configurations. Do not overwrite them, install global hooks/MCP servers, enable telemetry, access credentials, or change unrelated projects without specific permission.
+6. After approved installation, verify the project-scoped SKILL.md is present. Explain when I can ask the agent to use TuckBit and what remains unverified (installation alone does not prove automatic model activation).
 
-**Public developer preview (v0.1.2).** The skill, plugin packaging, reversible installer, task-contract compiler, capability registry, and workflow router exist. **Automatic tool interception, broadly verified native activation, and measured token savings are not yet available.** Contributions and independent testing are welcome.
+If any step is unsupported or unsafe, stop and explain the alternative rather than guessing.
+```
+<!-- AGENT_INSTALL_PROMPT_END -->
+
+**What this does:** asks *your own* agent to plan and verify installation. Pasting it here does not install anything automatically, and your agent must have appropriate file/tool capabilities. **No global configuration changes are authorized by this prompt.** [Detailed prompt and safety notes](docs/AGENT_INSTALL_PROMPT.md).
+
+## Install with a command
+
+If you are comfortable with a terminal, first preview the portable skill:
+
+```bash
+npx skills add MakeItEzzz555/tuck-bit --list
+```
+
+Then install it with the community Agent Skills installer (select the client and scope it supports):
+
+```bash
+npx skills add MakeItEzzz555/tuck-bit
+```
+
+Installation is distinct from successful model-driven activation. Inspect the source first; don't grant unexpected filesystem, credential or network access. For a **dry-run project-scoped Python installer** and rollback instructions, see [install details](docs/TESTING.md) and [compatibility](docs/COMPATIBILITY.md).
+
+## Why TuckBit exists
+
+A simple coding request can become repeated repository scans, entire tool catalogs in context, several agents rereading the same files, or unnecessary test loops. TuckBit's goal is to **reduce unproductive work, not required reasoning or checks**.
+
+| Without task-aware guidance | TuckBit's intended guidance |
+|---|---|
+| Load everything before you know what's needed | Discover only relevant skills, files and tools |
+| Delegate small changes to several agents | Start with one worker; parallelize only independent work |
+| Repeat reads and tests without inspecting inputs | Reuse valid evidence; rerun checks when dependencies change |
+| Optimize token counts regardless of quality | Preserve correctness, approval boundaries and mandatory verification |
+
+These are design goals and guidance, **not measured before/after outcomes**. [Benchmark methodology](docs/PUBLIC_BENCHMARK_PROTOCOL.md) · [Public example](evals/results/offline-v1.example.json).
 
 ## How it works
 
-```text
-                         YOUR REQUEST
-                  + constraints and checks
-                               │
-                     ┌─────────▼─────────┐
-                     │  Task contract    │  ← preserve original intent
-                     └─────────┬─────────┘
-                               │
-                      ┌────────▼────────┐
-                      │  TuckBit router │  ← host + risk + evidence
-                      └────────┬────────┘
-                               │
-             ┌─────────────────┼─────────────────┐
-             ▼                 ▼                 ▼
-         FAST               STANDARD            DEEP
-      local fix          normal feature      risky / complex
-             └─────────────────┬─────────────────┘
-                               │
-                 ┌─────────────▼─────────────┐
-                 │  Right tool, right scope │
-                 │  Focused → required tests│
-                 │  Evidence receipt + stop │
-                 └───────────────────────────┘
-```
+| 01 — Preserve intent | 02 — Route deliberately | 03 — Verify the result |
+|---|---|---|
+| Keep the user request, project instructions, constraints and required checks intact. | Recommend relevant tools, scoped evidence, and a Fast / Standard / Deep approach. | Run required validation; return changed files, test results and remaining limitations. |
 
-TuckBit recommends **Single** by default. **Parallel**, **Continuous**, and **Review-only** are separate workflows, not automatic extra agents. Real runtime integrations must honor each provider's native tool permissions.
+TuckBit's portable skill provides **advisory guidance** when your host loads it. The optional local router accepts explicitly supplied task data; it does **not** inspect hidden reasoning, automatically intercept agent calls or grant tool permissions. **Single** is the default workflow; **Parallel**, **Continuous** and **Review-only** require appropriate scope or consent.
+
+[Read the architecture](docs/ARCHITECTURE.md) · [Agent-specific policies](docs/PROVIDER_EXECUTION.md) · [Security and privacy](docs/PRIVACY.md)
 
 ## The six capabilities
 
@@ -76,47 +115,24 @@ TuckBit recommends **Single** by default. **Parallel**, **Continuous**, and **Re
 
 No background service is required for the portable skill. TuckBit does not grant itself access to credentials, private reasoning, or tools the host hasn't authorized.
 
-## Quick start
+## Developer tooling (optional)
 
-### Option 1 — Discover the skill without installing
-
-```bash
-# Preview the skill before installing:
-npx skills add MakeItEzzz555/tuck-bit --list
-```
-
-Install the standard Agent Skill with the community installer:
-
-```bash
-npx skills add MakeItEzzz555/tuck-bit
-```
-
-Review the skill and confirm the agent and installation scope before installing. The standalone skill provides instructions; optional Python registry/profiler utilities require a full source checkout.
-
-Claude Code also has a plugin/marketplace manifest; see the [compatibility guide](docs/COMPATIBILITY.md) for manual opt-in installation. This does not imply an official marketplace listing.
-
-### Option 2 — Use the Python preview (no AI tokens)
+TuckBit's no-model router and profiler require the full repository checkout. They do not silently inspect active global instructions or launch model sessions.
 
 ```bash
 git clone https://github.com/MakeItEzzz555/tuck-bit.git
 cd tuck-bit
-
 python3 scripts/tuckbit.py doctor
 python3 scripts/workflow_router.py examples/workflow-incident.json
-python3 scripts/workflow_router.py examples/workflow-parallel.json
-python3 scripts/workflow_router.py examples/workflow-loop.json
 ```
 
-The router reads only the explicitly supplied JSON task. It **does not** silently read your global instructions, launch agents, change model settings, execute tools, or call an AI provider.
-
-### Option 3 — Preview a reversible install
+For a project-only installation preview without changing agent settings:
 
 ```bash
-python3 scripts/install.py install --scope project \
-  --project /path/to/your-project --client codex --dry-run
+python3 scripts/install.py install --scope project --project /path/to/your-project --client codex --dry-run
 ```
 
-Six native target paths are available (Claude Code, Codex, Gemini, Cursor, OpenCode, Copilot). No global install is performed by default; real installation is an explicit separate action. [Install, rollback and testing details](docs/TESTING.md).
+[Full CLI usage, rollback and tests](docs/TESTING.md).
 
 ## Local capability index and execution profiling
 

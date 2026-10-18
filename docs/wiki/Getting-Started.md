@@ -1,5 +1,8 @@
 # Getting Started
 
+**New to GitHub or the terminal?** [Copy a safe installation prompt for your coding agent](../AGENT_INSTALL_PROMPT.md). Your agent should explain project scope, request approval, and verify the installed skill. Nothing is installed just by copying the text.
+
+
 TuckBit has two separable parts: (1) a portable instruction-only **Agent Skill** and (2) optional local, explicit Python utilities. Installing the skill does not automatically install the root-level CLI programs or invoke an AI model.
 
 ## Option A — Inspect and install the portable skill

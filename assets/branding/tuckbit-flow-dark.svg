@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="270" viewBox="0 0 1100 270" role="img" aria-labelledby="title desc">
+<title id="title">TuckBit task-aware workflow</title>
+<desc id="desc">Preserve the user request, choose focused tools and context, then verify the outcome. Host permissions remain in control.</desc>
+<rect x="1" y="1" width="1098" height="268" rx="24" fill="#0B101A" stroke="#32445A" />
+<rect x="32" y="39" width="310" height="164" rx="18" fill="#121E30" stroke="#32445A" />
+<rect x="52" y="58" width="46" height="34" rx="9" fill="#3C8FFF" />
+<text x="75" y="81" fill="#FFFFFF" font-size="17" font-weight="700" text-anchor="middle" font-family="Arial, sans-serif">01</text>
+<text x="109" y="80" fill="#ADBFD3" font-size="16" letter-spacing="2" font-weight="700" font-family="Arial, sans-serif">REQUEST</text>
+<text x="52" y="133" fill="#F8FAFC" font-size="27" font-weight="700" font-family="Arial, sans-serif">Respect the task</text>
+<text x="52" y="170" fill="#ADBFD3" font-size="19" font-family="Arial, sans-serif">Intent + constraints</text>
+<rect x="395" y="39" width="310" height="164" rx="18" fill="#121E30" stroke="#32445A" />
+<rect x="415" y="58" width="46" height="34" rx="9" fill="#3C8FFF" />
+<text x="438" y="81" fill="#FFFFFF" font-size="17" font-weight="700" text-anchor="middle" font-family="Arial, sans-serif">02</text>
+<text x="472" y="80" fill="#ADBFD3" font-size="16" letter-spacing="2" font-weight="700" font-family="Arial, sans-serif">ROUTE</text>
+<text x="415" y="133" fill="#F8FAFC" font-size="27" font-weight="700" font-family="Arial, sans-serif">Focus the work</text>
+<text x="415" y="170" fill="#ADBFD3" font-size="19" font-family="Arial, sans-serif">Relevant context + tools</text>
+<rect x="758" y="39" width="310" height="164" rx="18" fill="#121E30" stroke="#32445A" />
+<rect x="778" y="58" width="46" height="34" rx="9" fill="#3C8FFF" />
+<text x="801" y="81" fill="#FFFFFF" font-size="17" font-weight="700" text-anchor="middle" font-family="Arial, sans-serif">03</text>
+<text x="835" y="80" fill="#ADBFD3" font-size="16" letter-spacing="2" font-weight="700" font-family="Arial, sans-serif">VERIFY</text>
+<text x="778" y="133" fill="#F8FAFC" font-size="27" font-weight="700" font-family="Arial, sans-serif">Prove the result</text>
+<text x="778" y="170" fill="#ADBFD3" font-size="19" font-family="Arial, sans-serif">Required checks + receipt</text>
+<path d="M357 120 h19 m-7 -7 l7 7 -7 7" fill="none" stroke="#3C8FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M720 120 h19 m-7 -7 l7 7 -7 7" fill="none" stroke="#3C8FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="550" y="241" text-anchor="middle" fill="#ADBFD3" font-size="18" font-family="Arial, sans-serif">An advisory layer · Project-level skill · Native agent permissions stay authoritative</text>
+</svg>
