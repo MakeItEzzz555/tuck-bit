@@ -22,6 +22,8 @@ TuckBit is an open-source Agent Skill and optional local tooling for task-aware 
 
 <div align="center">
 <picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/branding/tuckbit-flow-dark-mobile.svg">
+  <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="assets/branding/tuckbit-flow-light-mobile.svg">
   <source media="(prefers-color-scheme: dark)" srcset="assets/branding/tuckbit-flow-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/branding/tuckbit-flow-light.svg">
   <img src="assets/branding/tuckbit-flow-light.svg" alt="How TuckBit works: preserve your request, choose relevant context and tools, then verify the result." width="990">
