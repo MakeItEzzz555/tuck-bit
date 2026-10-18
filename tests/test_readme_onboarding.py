@@ -49,7 +49,9 @@ class ReadmeOnboardingTests(unittest.TestCase):
         self.assertIn("prefers-color-scheme: dark", self.readme)
         self.assertIn("prefers-color-scheme: light", self.readme)
         self.assertIn("alt=\"How TuckBit works:", self.readme)
-        for theme in ("light", "dark"):
+        self.assertIn("(max-width: 600px) and (prefers-color-scheme: dark)", self.readme)
+        self.assertIn("(max-width: 600px) and (prefers-color-scheme: light)", self.readme)
+        for theme in ("light", "dark", "light-mobile", "dark-mobile"):
             file = ROOT / "assets/branding" / ("tuckbit-flow-" + theme + ".svg")
             self.assertTrue(file.is_file())
             svg = ET.parse(file).getroot()
@@ -71,6 +73,34 @@ class ReadmeOnboardingTests(unittest.TestCase):
             if path and not (ROOT / path).exists():
                 missing.append(path)
         self.assertEqual(missing, [])
+
+    def test_editorial_signal_flow_is_reproducible_and_accessible(self):
+        import importlib.util
+        script = ROOT / "scripts/build_readme_flow.py"
+        spec = importlib.util.spec_from_file_location("build_readme_flow", script)
+        self.assertIsNotNone(spec)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        for theme in ("light", "dark"):
+            for mobile in (False, True):
+                suffix = "-mobile" if mobile else ""
+                file = ROOT / "assets/branding" / f"tuckbit-flow-{theme}{suffix}.svg"
+                self.assertEqual(file.read_bytes(), module.generate(theme, mobile))
+                root = ET.parse(file).getroot()
+                self.assertIn("full user request", next(x.text for x in root if x.tag.endswith("desc")))
+                self.assertFalse(any(child.tag.endswith("script") for child in root.iter()))
+
+        # Ensure subdued small copy in both themes clears WCAG normal-text 4.5:1.
+        def luminance(value):
+            rgb = [int(value[i:i+2], 16) / 255 for i in (1, 3, 5)]
+            linear = [v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4 for v in rgb]
+            return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+        for theme, palette in module.PALETTES.items():
+            background = luminance(palette["bg"])
+            for role in ("fg", "secondary", "quiet", "blue"):
+                foreground = luminance(palette[role])
+                light, dark = sorted((background, foreground), reverse=True)
+                self.assertGreaterEqual((light + 0.05) / (dark + 0.05), 4.5, (theme, role))
 
     def test_both_local_install_methods_are_documented(self):
         self.assertIn("npx skills add MakeItEzzz555/tuck-bit --list", self.readme)
