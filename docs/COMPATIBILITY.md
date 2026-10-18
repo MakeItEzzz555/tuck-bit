@@ -91,3 +91,7 @@ Do not bundle unrelated projects into TuckBit's plugin marketplace. A separate p
 - https://geminicli.com/docs/extensions/releasing/
 - https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills
 - https://docs.opencode.ai/docs/skills/
+
+## Translated skill previews
+
+The 14 translated core skills live in [locales](../locales/) and must be copied explicitly into a host-specific **project** skill directory. They are excluded from all six canonical distribution manifests; they do not install automatically. Deeper technical references are marked English fallbacks pending full translation and independent review. See [language index](i18n/README.md) and [translation guide](i18n/TRANSLATION_GUIDE.md).

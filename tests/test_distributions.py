@@ -24,7 +24,8 @@ class DistributionTests(unittest.TestCase):
             self.assertEqual(manifest["version"],master["version"])
 
     def test_only_one_skill_source(self):
-        all_skill_paths=[p for p in ROOT.rglob("SKILL.md") if ".git" not in p.parts]
+        # Only one canonical, automatically packaged skill; localized variants are explicit opt-ins.
+        all_skill_paths=[p for p in (ROOT/"skills").rglob("SKILL.md") if ".git" not in p.parts]
         self.assertEqual(all_skill_paths,[ROOT/"skills"/"tuck-bit"/"SKILL.md"])
 
     def test_six_modules_and_defaults(self):
