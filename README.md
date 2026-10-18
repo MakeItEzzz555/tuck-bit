@@ -1,6 +1,10 @@
 <div align="center">
 
-# 🎼 TuckBit
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/branding/tuckbit-logo-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/branding/tuckbit-logo-light.png">
+  <img src="assets/branding/tuckbit-logo-light.png" alt="Tuck-Bit — blue modular icon and wordmark" width="760">
+</picture>
 
 ### Every tool. Right on cue.
 
