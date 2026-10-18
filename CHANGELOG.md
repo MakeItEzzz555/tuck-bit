@@ -2,7 +2,7 @@
 
 ## Unreleased — public README onboarding refresh
 
-- Redesigned TuckBit's initial README viewport around existing light/dark branding, accessible responsive desktop/mobile workflow graphics and a clear newcomer path.
+- Redesigned TuckBit's initial README viewport around existing light/dark branding, accessible responsive editorial signal-flow art and a clear newcomer path.
 - Added a copyable, host-aware and permission-preserving install prompt plus an independent onboarding guide.
 - Added an evidence-bounded discoverability review of six open-source README references and static checks for prompt/asset consistency.
 

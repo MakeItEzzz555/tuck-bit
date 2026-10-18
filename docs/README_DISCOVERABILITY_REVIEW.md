@@ -24,7 +24,7 @@ The screenshots and projects represent different categories and ages. Star count
 ## Applied TuckBit design decisions
 
 - Preserve the existing theme-aware official logo, rather than copy another project's mascots or branding.
-- Use self-hosted **flat, accessible light/dark desktop and mobile SVG workflows** summarizing request → routing → verification. It depicts actual advisory semantics, not a simulated live product UI.
+- Use self-hosted **flat, accessible light/dark desktop and mobile SVG signal-flow diagrams**. Multiple incoming requirements converge into a deliberate discovery lens and continue to verified evidence, replacing the ordinary three-card layout. It depicts advisory semantics, not a simulated live runtime UI.
 - Move a **copyable novice agent-install prompt** near the top. It requests project scope, a dry-run/preview and approval; it does not execute commands merely when pasted into documentation.
 - Put the supported discovery and installation commands immediately below for experienced developers.
 - Keep the real provider-status limitations, security notes and benchmark evidence visible. Neither simulated fixtures nor marketing claims are represented as actual model savings.
@@ -36,3 +36,10 @@ The screenshots and projects represent different categories and ages. Star count
 - Verify the first-screen README rendering on actual GitHub in both light and dark mode and on a narrow viewport.
 - Watch community feedback for successful project-scoped installation by unfamiliar users; do not assume a pasted prompt has installed anything without a verified SKILL.md.
 - Measure real README discoverability using attributable visit/issue feedback rather than treating high-star reference repositories as a causal experiment.
+
+
+## Design refinement: Taste (GPT/Codex variant) + Impeccable
+
+The visually indistinct three rounded containers were replaced with one editorial signal diagram. Kept the project's real blue/charcoal palette and first-viewport legibility, while adopting Taste's anti-template direction and Impeccable's readability, mobile adaptation and contrast discipline. GitHub READMEs cannot support GSAP scripts, hover behaviors, live React interactions or self-hosted webfont installs; this is intentionally standalone static SVG with existing HTML picture source switching. The assets are generated deterministically by `scripts/build_readme_flow.py` and tested for light/dark contrast and correct narrative meaning.
+
+The mobile diagram is independently composed, not merely a shrunken 1160px desktop strip. No gradients, stock media, unmeasured savings or external illustration hosts were added.
