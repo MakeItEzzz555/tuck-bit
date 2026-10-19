@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Explicit, bounded native trials of a real DynamicIsland source investigation."""
+"""Explicit, bounded native trials of a repository source investigation (generic example layout)."""
 import argparse
 import hashlib
 import json
@@ -21,8 +21,9 @@ from trace_profiler import profile
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_PREFIXES = ("Sources/", "Tests/")
 SOURCE_NAMES = {"Package.swift", "Package.resolved", "README.md", "AGENTS.md"}
-TARGET = "Sources/DynamicIsland/Modules/TimerCompletionNotifications.swift"
-TASK = """Investigate the current DynamicIsland timer notification lifecycle. Can time spent awaiting notification authorization make the eventual notification and sound arrive after the actual countdown deadline? Trace the caller, scheduling and completion sound ownership. Determine whether a defect exists in this source, a minimal correction and a deterministic regression test. Review only: do not change source, tests, settings or permissions, run the app or request authorization. Return only one JSON object: finding (confirmed, absent or uncertain), source_files (repository-relative paths including the coordinator and caller), facts (boolean fields delay_captured_before_authorization, elapsed_authorization_time_deducted, completion_can_delegate_sound_to_late_request), correction (boolean fields preserve_countdown_deadline, recompute_delay_after_authorization, expired_request_must_not_suppress_local_sound), regression (numeric countdown_seconds, authorization_wait_seconds, expected_remaining_seconds, and boolean cover_expired_authorization, cover_cancellation). Derive values from actual source; these field names describe hypotheses, not established facts. Use finding uncertain when evidence is missing."""
+TARGET = "Sources/ExampleApp/Timer/TimerCompletionNotifications.swift"
+CALLER = "Sources/ExampleApp/App/ExampleApp.swift"
+TASK = """Investigate the current timer notification lifecycle. Can time spent awaiting notification authorization make the eventual notification and sound arrive after the actual countdown deadline? Trace the caller, scheduling and completion sound ownership. Determine whether a defect exists in this source, a minimal correction and a deterministic regression test. Review only: do not change source, tests, settings or permissions, run the app or request authorization. Return only one JSON object: finding (confirmed, absent or uncertain), source_files (repository-relative paths including the coordinator and caller), facts (boolean fields delay_captured_before_authorization, elapsed_authorization_time_deducted, completion_can_delegate_sound_to_late_request), correction (boolean fields preserve_countdown_deadline, recompute_delay_after_authorization, expired_request_must_not_suppress_local_sound), regression (numeric countdown_seconds, authorization_wait_seconds, expected_remaining_seconds, and boolean cover_expired_authorization, cover_cancellation). Derive values from actual source; these field names describe hypotheses, not established facts. Use finding uncertain when evidence is missing."""
 BOUNDARY = """Work only with this disposable source snapshot and supplied treatment resources, plus applicable host instructions. No network, credentials, private sessions, agents, background processes, commits, app launches or permission changes. Preserve all source files. You may create private evidence only under .tuck-bit/run/. Use scoped searches and native tools as appropriate. No expensive full build is needed for this read-only investigation. Final conclusions are independently checked; do not claim tests you did not run."""
 
 
@@ -56,7 +57,7 @@ def collect(source, revision):
             raise ValueError("Source snapshot exceeds bound")
         files[name] = data
     if TARGET not in files or "Package.swift" not in files:
-        raise ValueError("Not the expected DynamicIsland source")
+        raise ValueError("Not the expected pilot source layout")
     return files
 
 
@@ -108,8 +109,7 @@ def grade(text, files):
         if value['finding'] != 'confirmed' or not isinstance(value['source_files'], list) or len(value['source_files']) > 10:
             return False
         paths = value['source_files']
-        caller='Sources/DynamicIsland/App/DynamicIslandApp.swift'
-        if TARGET not in paths or caller not in paths or any(not isinstance(p,str) or p not in files for p in paths):
+        if TARGET not in paths or CALLER not in paths or any(not isinstance(p,str) or p not in files for p in paths):
             return False
         expected_facts={'delay_captured_before_authorization':True,'elapsed_authorization_time_deducted':False,
                         'completion_can_delegate_sound_to_late_request':True}
@@ -254,7 +254,7 @@ def execute(source, revision, model, runtime, journal_path, trials=2, timeout=18
                 journal.complete(receipt);receipts.append(receipt)
                 print(json.dumps({'completed':len(receipts),'accepted':bool(accepted),'activation':active,'workflow_verified':workflow}),flush=True)
                 if not result['ok']:break
-        return {'schema':1,'pilot':'dynamicisland_timer_deadline','source_revision':revision,
+        return {'schema':1,'pilot':'timer_deadline_example','source_revision':revision,
                 'source_sha256':source_sha,'runs':receipts,'report':report(receipts),
                 'limitations':['Two partially balanced trials do not establish general efficiency or statistical savings.',
                                'Structured fact grading is task-specific; independent suspended-clock reproduction supplies causal evidence, not general semantic review quality.',
@@ -271,7 +271,7 @@ def main():
     parser.add_argument('--output')
     args=parser.parse_args()
     if not args.execute:
-        print(json.dumps({'execution_performed':False,'pilot':'dynamicisland_timer_deadline','planned_native_runs':3*args.trials,'maximum_native_seconds':3*args.trials*args.timeout}));return 0
+        print(json.dumps({'execution_performed':False,'pilot':'timer_deadline_example','planned_native_runs':3*args.trials,'maximum_native_seconds':3*args.trials*args.timeout}));return 0
     if not all((args.source,args.revision,args.model,args.runtime,args.journal,args.output)):
         parser.error('Execution requires explicit source/revision/model/runtime/journal/output')
     binding(args.revision,'0'*64)
