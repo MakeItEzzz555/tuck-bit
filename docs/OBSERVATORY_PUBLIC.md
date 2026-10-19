@@ -16,7 +16,7 @@ The public preview opens with **synthetic demo observations**, rather than the p
 ## Public release composition
 
 - Shipped: portable canonical TuckBit skill v0.3.0 and optional deterministic runtime modules, Observatory local server, UI, import/counter validation, token analytics, accessible tables and charts, configurable rate scenarios, conservative qualification and safe error diagnostics.
-- Included tests: public repository Python regressions, selected-file import and server boundary tests, and synthetic analytics JavaScript tests.
+- Included tests: public repository Python regressions; selected-file import and server boundary tests with a synthetic, canary-only Codex fixture; runtime tests for the published execution-state, benchmark-runner, journal, isolation, diagnostics, provider-event, repository-pilot, command-policy and workflow modules; and synthetic analytics JavaScript tests. CI covers Ubuntu and macOS with Python 3.10 and 3.13. Tests requiring withheld receipts or the frozen grader corpus are not shipped; the corresponding research replay commands are unsupported here.
 - Intentionally **not shipped**: private V2–V8 study receipts, original graded results, frozen proprietary study assets, grader/reference answers, personal working paths, internal reviews and any real Codex session export. Their absence does not indicate that private experiments were conducted in this public release.
 - Research replay and historical-grade commands that depend on withheld fixtures are **not supported by this public archive**. No assertion of independent efficacy or qualified native comparisons is made.
 

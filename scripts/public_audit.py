@@ -16,6 +16,8 @@ SENSITIVE_FILENAMES = {
     "credentials.json", "service-account.json"
 }
 SENSITIVE_EXTENSIONS = {".pem", ".p12", ".pfx", ".key", ".har", ".sqlite", ".db", ".jsonl"}
+# Exact paths of reviewed synthetic fixtures; their contents are still scanned.
+SYNTHETIC_FIXTURES = {"tests/dashboard/fixtures/codex-rollout.jsonl"}
 KEY_PREFIXES = ["gh" + "p_", "gh" + "o_", "github" + "_pat_",
                 "sk" + "-proj-", "xox" + "b-", "xox" + "p-"]
 TOKEN_REGEX = re.compile(
@@ -44,6 +46,8 @@ def check_path(rel):
     if not isinstance(rel, str):
         return ["invalid_filename"]
     path = Path(rel)
+    if rel in SYNTHETIC_FIXTURES:
+        return []
     if path.name in SENSITIVE_FILENAMES or path.suffix.lower() in SENSITIVE_EXTENSIONS:
         return ["high_risk_filename"]
     if any(part in ("private", "internal", "sessions", "captures") for part in path.parts):

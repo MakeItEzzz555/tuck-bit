@@ -47,6 +47,12 @@ class PublicAuditTests(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertEqual(audit_module.check_path(name), ["high_risk_filename"])
 
+    def test_only_the_exact_synthetic_fixture_path_is_exempt(self):
+        self.assertEqual(audit_module.check_path("tests/dashboard/fixtures/codex-rollout.jsonl"), [])
+        for rel in ("codex-rollout.jsonl", "tests/codex-rollout.jsonl", "tests/dashboard/fixtures/real.jsonl",
+                    "tests/dashboard/fixtures/codex-rollout.JSONL", "x/tests/dashboard/fixtures/codex-rollout.jsonl"):
+            self.assertEqual(audit_module.check_path(rel), ["high_risk_filename"], rel)
+
     def test_benign_filename_lookalikes_are_not_flagged(self):
         for name in (".env.example", "docs/private.md", "docs/sessions-guide.md", "public/key.txt"):
             with self.subTest(name=name):

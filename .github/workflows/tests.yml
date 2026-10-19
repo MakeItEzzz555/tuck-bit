@@ -6,12 +6,22 @@ permissions:
   contents: read
 jobs:
   foundation:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ['3.10', '3.13']
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.11'
+          python-version: ${{ matrix.python }}
+      # Command-classification tests need a real host-resolved rg; the classifier refuses unresolved executables.
+      - name: Install ripgrep
+        run: |
+          if [ "$RUNNER_OS" = "Linux" ]; then sudo apt-get update -q && sudo apt-get install -y -q ripgrep; else command -v rg || brew install ripgrep; fi
+          rg --version
       - name: Check distribution
         run: python3 scripts/tuckbit.py doctor
       - name: Confirm distribution manifests are synchronized

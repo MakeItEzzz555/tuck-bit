@@ -1,3 +1,9 @@
+## Public Observatory completeness fix — 2026-10-19
+
+- Restores the synthetic Codex importer fixture (`tests/dashboard/fixtures/codex-rollout.jsonl`), which `*.jsonl` in `.gitignore` had silently excluded, so 26 importer and server tests errored in CI. Only that exact reviewed path is exempt from the ignore rule and the public audit's filename check; its contents are still scanned.
+- Publishes the 17 runtime test modules (and `tests/native_fixture.py`) that exercise already-published scripts without withheld research data, plus the synthetic `examples/benchmarks` inputs they use. Tests that need private receipts or the frozen grader corpus remain private.
+- CI now runs on Ubuntu and macOS with Python 3.10 and 3.13, installs real ripgrep, and reports every leg.
+
 ## Public Observatory local preview — 2026-10-19
 
 - Adds the opt-in Observatory dashboard and local server from the internally reviewed V9 implementation, with synthetic default data, selected-file import, bounded normalization, privacy controls and descriptive usage analytics.
