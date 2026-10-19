@@ -26,5 +26,4 @@ Never downgrade required verification simply because a workflow is called Fast. 
 - Missing official source/API evidence: expand only the relevant research.
 - New code revision or changed dependencies: invalidate stale verification evidence.
 
-Provider-specific details and cited rationale: [research and execution profiles](../../../docs/PROVIDER_EXECUTION.md).
-Read only the relevant host section; avoid loading this entire catalog by default.
+For host-specific execution guidance, read only the relevant section of [task-aware context contracts](task-contract.md#model-and-host-adaptation).

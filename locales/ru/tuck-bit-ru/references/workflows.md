@@ -1,5 +1,5 @@
 > **English canonical technical fallback — not translated.** Основной файл навыка переведён; технические справочники временно остаются на английском и требуют проверки сообщества.
-> Source SHA-256: `f44e8d696c359fd65694482441827060cc89a382b478bb53192f353d12717312`
+> Source SHA-256: `7592d58534273fd33f06a6c2d9c8deb8f8e6db1a5199bda54aa2de763e9ef3e7`
 
 # Adaptive execution workflows (default guidance)
 
@@ -29,5 +29,4 @@ Never downgrade required verification simply because a workflow is called Fast. 
 - Missing official source/API evidence: expand only the relevant research.
 - New code revision or changed dependencies: invalidate stale verification evidence.
 
-Provider-specific details and cited rationale: [research and execution profiles](../../../docs/PROVIDER_EXECUTION.md).
-Read only the relevant host section; avoid loading this entire catalog by default.
+For host-specific execution guidance, read only the relevant section of [task-aware context contracts](task-contract.md#model-and-host-adaptation).
