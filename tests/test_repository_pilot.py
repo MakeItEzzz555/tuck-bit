@@ -12,7 +12,7 @@ sys.path.insert(0,str(ROOT/'scripts'))
 import repository_pilot as pilot
 from execution_state import checkpoint,packet
 
-CALLER='Sources/DynamicIsland/App/DynamicIslandApp.swift'
+CALLER=pilot.CALLER
 FILES={pilot.TARGET:(('\n'*120)+'''private func schedule() {
 let request = TimerCompletionNotificationRequest(delay: Self.timeInterval(for: remaining))
 let status = await client.authorizationStatus()
