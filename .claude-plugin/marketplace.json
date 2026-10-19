@@ -1,6 +1,6 @@
 {
   "name": "tuck-bit-preview",
-  "description": "TuckBit community plugin catalog; installation is opt-in.",
+  "description": "Private TuckBit development plugin catalog; opt-in only.",
   "owner": {
     "name": "MakeItEzzz555"
   },

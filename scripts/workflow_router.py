@@ -7,81 +7,34 @@ import argparse
 import json
 from pathlib import Path
 from plan_task import compile_plan
-from capability_registry import load_snapshot, query as find_capabilities
+from capability_registry import load_snapshot, query as find_capabilities, verify_sources
 from trace_profiler import load as load_trace, profile as summarize_trace
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "skills/tuck-bit/assets/workflows.json"
-SIGNALS = {
-    "unchanged_retries", "failed_checks", "large_tool_outputs",
-    "unresolved_dependencies", "duplicate_tool_calls", "file_conflicts"
-}
-EXTRA_KEYS = {
-    "complexity", "enable_orchestration", "workstreams", "event_trigger",
-    "checkpoint_reference", "signals", "review_only"
-}
-INPUT_KEYS = {
-    "request", "constraints", "host", "model", "tools", "needed_tools",
-    "instruction_references", "risk", "parallel", "continuous", "checks"
-}
-MODES = ("fast", "standard", "deep")
-MAX_INPUT_BYTES = 128000
+MAX_INPUT_BYTES = 180000
 
-def _check_strings(values, label, limit=40):
-    if not isinstance(values, list) or len(values) > limit:
-        raise ValueError(label + " must be a bounded list")
-    if any(not isinstance(item, str) or not item.strip() for item in values):
-        raise ValueError(label + " must contain nonempty strings")
 
-def _validate_workstreams(items):
-    if not isinstance(items, list) or len(items) > 8:
-        raise ValueError("workstreams must be a list of at most 8")
-    seen = set()
-    collisions = []
-    for item in items:
-        if not isinstance(item, dict) or set(item) != {"goal", "owned_files"}:
-            raise ValueError("each workstream requires goal and owned_files")
-        if not isinstance(item["goal"], str) or not item["goal"].strip():
-            raise ValueError("workstream goal must be nonempty")
-        _check_strings(item["owned_files"], "owned_files")
-        if not item["owned_files"]:
-            raise ValueError("workstreams require at least one owned file")
+def _ownership_collisions(items):
+    owners = []
+    collisions = set()
+    for number, item in enumerate(items):
         for file in item["owned_files"]:
-            normalized = file.replace("\\", "/").lower()
-            if normalized.startswith("/") or ":" in normalized or ".." in normalized.split("/"):
-                raise ValueError("workstream ownership must be repository-relative")
-            if normalized in seen:
-                collisions.append(file)
-            seen.add(normalized)
-    return sorted(set(collisions))
+            normalized = "/".join(part for part in file.replace("\\", "/").lower().split("/") if part not in ("", "."))
+            for previous, owner in owners:
+                if owner != number and (normalized == previous or normalized.startswith(previous + "/") or previous.startswith(normalized + "/")):
+                    collisions.add(file)
+            owners.append((normalized, number))
+    return sorted(collisions)
 
-def _signals(obj):
-    if not isinstance(obj, dict) or set(obj) - SIGNALS:
-        raise ValueError("signals must be a dictionary of allowed observations")
-    for key, value in obj.items():
-        if isinstance(value, bool) or not isinstance(value, int) or not 0 <= value <= 10000:
-            raise ValueError("signal values must be bounded nonnegative integers")
-    return obj
 
-def route(task, capability_snapshot=None, trace_summary=None):
-    if not isinstance(task, dict):
-        raise ValueError("task must be an object")
-    unknown = set(task) - EXTRA_KEYS - INPUT_KEYS
-    if unknown:
-        raise ValueError("unknown task fields: " + ", ".join(sorted(unknown)))
-    if task.get("complexity", "standard") not in MODES:
-        raise ValueError("complexity must be fast, standard or deep")
-    if not isinstance(task.get("enable_orchestration", False), bool):
-        raise ValueError("enable_orchestration must be boolean")
-    if not isinstance(task.get("review_only", False), bool):
-        raise ValueError("review_only must be boolean")
-    for field in ("event_trigger", "checkpoint_reference"):
-        if field in task and (
-            not isinstance(task[field], str) or not task[field].strip()
-            or len(task[field]) > 300
-        ):
-            raise ValueError(field + " must be a short nonempty string")
-    observations = dict(_signals(task.get("signals", {})))
+def route(task, capability_snapshot=None, trace_summary=None, *, capability_roots=None,
+          capability_tools_file=None, capability_revision=None, capability_environment=None,
+          focused_discovery=False):
+    if type(focused_discovery) is not bool:
+        raise ValueError("Focused discovery must be boolean")
+    base = compile_plan(task)
+    observations = dict(task.get("signals", {}))
     if trace_summary is not None:
         if not isinstance(trace_summary, dict) or trace_summary.get("metrics_source") != "explicit_redacted_trace":
             raise ValueError("Unsupported trace summary")
@@ -92,8 +45,7 @@ def route(task, capability_snapshot=None, trace_summary=None):
                 raise ValueError("Invalid trace-derived metric: " + metric)
             observations[signal] = max(observations.get(signal, 0), value)
     streams = task.get("workstreams", [])
-    collisions = _validate_workstreams(streams)
-    base = compile_plan({k:v for k,v in task.items() if k in INPUT_KEYS})
+    collisions = _ownership_collisions(streams)
     policy = json.loads(CATALOG.read_text(encoding="utf-8"))
     host = base["host"]
     profile = policy["hosts"].get(host, policy["hosts"]["generic"])
@@ -144,14 +96,28 @@ def route(task, capability_snapshot=None, trace_summary=None):
         checks.append("Review required security and rollback implications")
     checks.append("Review final change or evidence and report remaining uncertainties")
     candidates = []
+    registry_freshness = "not_supplied"
     if capability_snapshot is not None:
-        # Explicitly provided cached metadata only; never run or activate a tool.
-        for row in find_capabilities(capability_snapshot, base["request"], limit=5):
+        # Reading an old catalog is not evidence that a tool remains available.
+        if capability_roots is None:
+            registry_freshness = "unverified"
+            notices.append("Registry ignored: explicitly reverify its roots, tools snapshot and binding before discovery")
+        elif not verify_sources(capability_snapshot, capability_roots, capability_tools_file,
+                                capability_revision, capability_environment):
+            registry_freshness = "stale"
+            notices.append("Registry ignored: sources, revision or environment changed")
+        else:
+            registry_freshness = "fresh_explicit_sources"
+    if registry_freshness == "fresh_explicit_sources":
+        if len(base["request"]) > 1000:
+            notices.append("Capability discovery uses the first 1000 request characters; full task is preserved")
+        for row in find_capabilities(capability_snapshot, base["request"][:1000], limit=5, focused=focused_discovery):
             candidates.append({"type": row["type"], "name": row["name"],
                                "provider": row.get("provider"),
                                "source": row["source"],
                                "relevance_score": row["relevance_score"],
                                "trust": "untrusted_metadata",
+                               "permission": row.get("permission", "unknown"),
                                "requires_host_authorization": True})
     return {
         "schema": 1,
@@ -162,7 +128,7 @@ def route(task, capability_snapshot=None, trace_summary=None):
             "workflow": workflow,
             "reason": reasons,
             "notices": notices,
-            "stage_sequence": policy["depths"][depth]["stages"],
+            "stage_sequence": base["execution"]["sequence"] if workflow == "review" else policy["depths"][depth]["stages"],
             "validation_scope": policy["depths"][depth]["validation"],
             "host_strategy": profile["strategy"],
             "host_tool_selection": profile["tool_selection"],
@@ -170,6 +136,9 @@ def route(task, capability_snapshot=None, trace_summary=None):
             "host_source": profile["source"],
             "checks": checks,
             "suggested_capabilities": candidates,
+            "registry_freshness": registry_freshness,
+            "prohibitions": base["effective_prohibitions"],
+            "approvals": base["approvals_verbatim"],
             "observations": observations,
             "effective_permissions": "unknown; original host authorization always required",
             "tool_calls_made": 0,
@@ -183,6 +152,10 @@ def main():
     p.add_argument("task_file", help="Explicit JSON task file")
     p.add_argument("--output", help="Optional new output file; never overwrites")
     p.add_argument("--registry-snapshot", help="Explicit local capability metadata snapshot (advisory only)")
+    p.add_argument("--registry-root", action="append", help="Explicit original registry skill root; repeatable")
+    p.add_argument("--registry-tools-file", help="Explicit original registry tool metadata snapshot")
+    p.add_argument("--source-revision", help="Explicit registry source binding")
+    p.add_argument("--environment", help="Explicit registry environment binding")
     p.add_argument("--trace", help="Explicit redacted event trace used only for observable hints")
     args = p.parse_args()
     try:
@@ -191,13 +164,17 @@ def main():
             raise ValueError("task source must be a small ordinary file")
         catalog = load_snapshot(args.registry_snapshot) if args.registry_snapshot else None
         trace = summarize_trace(load_trace(args.trace)) if args.trace else None
-        result = route(json.loads(source.read_text(encoding="utf-8")), catalog, trace)
+        result = route(json.loads(source.read_text(encoding="utf-8")), catalog, trace,
+                       capability_roots=(args.registry_root or []) if (args.registry_root is not None or args.registry_tools_file is not None) else None,
+                       capability_tools_file=args.registry_tools_file,
+                       capability_revision=args.source_revision, capability_environment=args.environment)
         data = json.dumps(result, indent=2, ensure_ascii=False) + "\n"
         if args.output:
             dest = Path(args.output).expanduser()
             if dest.exists() or dest.is_symlink():
                 raise ValueError("output exists; not overwriting")
-            dest.write_text(data, encoding="utf-8")
+            with dest.open("x", encoding="utf-8") as output:
+                output.write(data)
             print("Wrote advisory workflow: " + str(dest))
         else:
             print(data, end="")

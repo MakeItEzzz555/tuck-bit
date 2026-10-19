@@ -134,7 +134,8 @@ class WorkflowRouterTests(unittest.TestCase):
         from capability_registry import build
         catalog = build([ROOT/"skills"], ROOT/"examples/tool-metadata.synthetic.json")
         task = self.task(request="Search repository source for regression tests", host="codex")
-        output = route(task, catalog)
+        output = route(task, catalog, capability_roots=[ROOT/"skills"],
+                       capability_tools_file=ROOT/"examples/tool-metadata.synthetic.json")
         choices = output["routing"]["suggested_capabilities"]
         self.assertTrue(choices)
         self.assertEqual(choices[0]["trust"], "untrusted_metadata")
@@ -166,6 +167,64 @@ class WorkflowRouterTests(unittest.TestCase):
             report=json.loads(res.stdout)
             self.assertEqual(report["routing"]["observations"]["large_tool_outputs"],2)
 
+    def test_compiler_and_router_accept_identical_task_envelope(self):
+        from plan_task import compile_plan
+        task = self.task(complexity="deep", approvals=["Read metadata"],
+                         forbidden_operations=["push"], instruction_references=["AGENTS.md"])
+        compiled = compile_plan(task)
+        routed = route(task)
+        self.assertEqual(routed["task"], compiled)
+        self.assertEqual(route(compiled["task_input"])["task"], compiled)
+
+    def test_registry_without_current_sources_is_not_usable(self):
+        from capability_registry import build
+        output = route(self.task(), build([ROOT/"skills"]))
+        self.assertEqual(output["routing"]["registry_freshness"], "unverified")
+        self.assertEqual(output["routing"]["suggested_capabilities"], [])
+
+    def test_changed_registry_sources_are_not_usable(self):
+        from capability_registry import build
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp) / "a-test"
+            folder.mkdir()
+            skill = folder / "SKILL.md"
+            skill.write_text("---\nname: a-test\ndescription: Test source\n---\n")
+            snapshot = build([folder], revision="abc", environment="local")
+            skill.write_text(skill.read_text() + "Changed instructions")
+            output = route(self.task(request="Test source"), snapshot,
+                           capability_roots=[folder], capability_revision="abc",
+                           capability_environment="local")
+            self.assertEqual(output["routing"]["registry_freshness"], "stale")
+            self.assertEqual(output["routing"]["suggested_capabilities"], [])
+
+    def test_registry_revision_change_invalidates_candidates(self):
+        from capability_registry import build
+        snapshot = build([ROOT/"skills"], revision="abc", environment="local")
+        result = route(self.task(), snapshot, capability_roots=[ROOT/"skills"],
+                       capability_revision="def", capability_environment="local")
+        self.assertEqual(result["routing"]["registry_freshness"], "stale")
+
+    def test_directory_ownership_conflict_is_detected(self):
+        result = route(self.task(parallel=True, enable_orchestration=True, workstreams=[
+            {"goal": "A", "owned_files": ["./src/"]},
+            {"goal": "B", "owned_files": ["src/module.py"]}]))
+        self.assertEqual(result["routing"]["workflow"], "single")
+
+    def test_explicit_risk_factors_escalate_without_request_keyword_guessing(self):
+        result = route(self.task(complexity="fast", risk="normal", risk_factors=["privacy"]))
+        self.assertEqual(result["routing"]["depth"], "deep")
+        self.assertFalse(result["task"]["risk_assessment"]["verified"])
+
+    def test_review_preserves_prohibitions_despite_orchestration_request(self):
+        result = route(self.task(review_only=True, continuous=True, parallel=True,
+            enable_orchestration=True, event_trigger="event", checkpoint_reference="state.json",
+            approvals=["read source"], forbidden_operations=["edit", "deploy"]))
+        self.assertEqual(result["routing"]["workflow"], "review")
+        self.assertNotIn("Implement", " ".join(result["routing"]["stage_sequence"]))
+        self.assertEqual(result["routing"]["approvals"], ["read source"])
+        self.assertIn("edit", result["routing"]["prohibitions"])
+        self.assertTrue(any("Review only" in p for p in result["routing"]["prohibitions"]))
+
     def test_registry_is_opt_in(self):
         self.assertEqual(route(self.task())["routing"]["suggested_capabilities"], [])
 
@@ -179,7 +238,9 @@ class WorkflowRouterTests(unittest.TestCase):
             task.write_text(json.dumps(self.task(request="Search repository source for regression tests")))
             snapshot.write_text(json.dumps(build([ROOT/"skills"], ROOT/"examples/tool-metadata.synthetic.json")))
             p = subprocess.run([sys.executable, str(ROOT/"scripts/workflow_router.py"),str(task),
-                                "--registry-snapshot",str(snapshot)],capture_output=True,text=True)
+                                "--registry-snapshot",str(snapshot),"--registry-root",str(ROOT/"skills"),
+                                "--registry-tools-file",str(ROOT/"examples/tool-metadata.synthetic.json")],
+                               capture_output=True,text=True)
             self.assertEqual(p.returncode, 0, p.stderr)
             self.assertTrue(json.loads(p.stdout)["routing"]["suggested_capabilities"])
 

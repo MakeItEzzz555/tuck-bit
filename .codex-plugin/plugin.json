@@ -1,6 +1,6 @@
 {
   "name": "tuck-bit",
-  "version": "0.1.2",
+  "version": "0.3.0",
   "description": "On-demand agent capability discovery, bounded context, cost-aware execution and quality-preserving verification.",
   "author": {
     "name": "MakeItEzzz555"

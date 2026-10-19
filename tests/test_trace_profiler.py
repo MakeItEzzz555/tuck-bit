@@ -141,3 +141,85 @@ class ProfileTests(unittest.TestCase):
 
 if __name__=="__main__":
     unittest.main()
+
+
+class AvailabilityTests(unittest.TestCase):
+    def trace(self, events):
+        return {"schema": 1, "events": [{"category": "build", "role": "root", **e} for e in events],
+                "outcome": {"verified": True, "acceptance_checks_passed": True}}
+
+    def test_omitted_and_null_metrics_remain_unknown(self):
+        for event in ({"duration_ms": 100}, {"input_tokens": None}):
+            report = prof.profile(self.trace([event]))
+            self.assertIsNone(report["reported_input_tokens"])
+            self.assertIsNone(report["reported_output_tokens"])
+            self.assertEqual(report["metric_availability"]["input_tokens"]["status"], "unknown")
+
+    def test_measured_zero_is_complete(self):
+        report = prof.profile(self.trace([{"input_tokens": 0, "cached_input_tokens": 0}]))
+        self.assertEqual(report["reported_input_tokens"], 0)
+        self.assertEqual(report["reported_uncached_input_tokens"], 0)
+        self.assertEqual(report["metric_availability"]["input_tokens"]["status"], "complete")
+
+    def test_partial_subtotal_does_not_masquerade_as_total(self):
+        trace = self.trace([{"input_tokens": 100}, {"duration_ms": 5}])
+        report = prof.profile(trace)
+        self.assertIsNone(report["reported_input_tokens"])
+        self.assertEqual(report["observed_subtotals"]["input_tokens"], 100)
+        self.assertEqual(report["metric_availability"]["input_tokens"]["status"], "partial")
+        self.assertIsNone(prof.compare(trace, trace)["descriptive_differences"]["reported_input_tokens"]
+                          ["delta_candidate_minus_baseline"])
+
+    def test_partial_pair_is_accepted_but_derived_value_is_unknown(self):
+        report = prof.profile(self.trace([{"cached_input_tokens": 20}]))
+        self.assertEqual(report["reported_cached_input_tokens"], 20)
+        self.assertIsNone(report["reported_uncached_input_tokens"])
+
+    def test_conflicting_provider_definition_is_rejected(self):
+        trace = self.trace([{}])
+        trace["accounting"] = {"cached_input": "additional_to_input", "reasoning_output": "included_in_output"}
+        with self.assertRaises(prof.ProfileError):
+            prof.profile(trace)
+
+    def test_accounting_and_wall_time_are_explicit(self):
+        trace = self.trace([{"duration_ms": 80}, {"duration_ms": 80}])
+        trace["wall_time_ms"] = 90
+        trace["accounting"] = {"cached_input": "included_in_input", "reasoning_output": "included_in_output"}
+        report = prof.profile(trace)
+        self.assertEqual(report["wall_time_ms"], 90)
+        self.assertEqual(report["sum_event_durations_ms"], 160)
+
+    def test_invalid_null_adjacent_values_and_wall_time_rejected(self):
+        for key, value in (("wall_time_ms", True), ("wall_time_ms", -1), ("schema", True)):
+            trace = self.trace([{}])
+            trace[key] = value
+            with self.assertRaises(prof.ProfileError):
+                prof.profile(trace)
+
+    def test_file_reader_refuses_symlink_and_limits_size(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "trace.json"
+            path.write_text(json.dumps(self.trace([{}])))
+            link = path.with_name("link")
+            link.symlink_to(path)
+            with self.assertRaises((prof.ProfileError, OSError)):
+                prof.load(link)
+            path.write_bytes(b" " * (prof.MAX_BYTES + 1))
+            with self.assertRaises(prof.ProfileError):
+                prof.load(path)
+
+    def test_file_reader_refuses_fifo_without_blocking(self):
+        import os
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "fifo"
+            os.mkfifo(path)
+            with self.assertRaises(prof.ProfileError):
+                prof.load(path)
+
+    def test_invocations_retries_and_overhead_use_complete_only_deltas(self):
+        before = self.trace([{"tool_invocations": 3, "retries": 1, "delegation_overhead_ms": 5}])
+        after = self.trace([{"tool_invocations": 2, "retries": 0}])
+        differences = prof.compare(before, after)["descriptive_differences"]
+        self.assertEqual(differences["metric_retries"]["delta_candidate_minus_baseline"], -1)
+        self.assertEqual(differences["metric_tool_invocations"]["delta_candidate_minus_baseline"], -1)
+        self.assertIsNone(differences["metric_delegation_overhead_ms"]["delta_candidate_minus_baseline"])

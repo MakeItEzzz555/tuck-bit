@@ -30,6 +30,8 @@ TuckBit is an open-source Agent Skill and optional local tooling for task-aware 
 </picture>
 </div>
 
+**New: optional TuckBit Observatory public preview.** Inspect a synthetic demo or explicitly select one local Codex JSONL/normalized JSON export through a loopback-only browser UI. No background capture, remote server, private research receipts or verified billing claims. [Local setup and limitations](docs/OBSERVATORY_PUBLIC.md). Start locally with `python3 scripts/dashboard_server.py --port 8765`.
+
 **Public developer preview.** The portable skill, metadata discovery, reversible installer, deterministic router and offline benchmark harness are available. Real cross-provider activation, live tool interception, and verified token savings are **not** established. [See what's implemented](#what-is-actually-implemented) and the [public roadmap](docs/ROADMAP.md).
 
 <details>

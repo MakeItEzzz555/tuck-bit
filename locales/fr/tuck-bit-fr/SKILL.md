@@ -5,7 +5,7 @@ license: MIT
 compatibility: Portable Agent Skills; project-scoped install only.
 metadata:
   author: TuckBit contributors
-  version: "0.1.2"
+  version: "0.3.0"
   locale: fr
 ---
 
