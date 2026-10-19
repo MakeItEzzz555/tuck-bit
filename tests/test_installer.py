@@ -70,6 +70,24 @@ class InstallerTests(unittest.TestCase):
         self.assertFalse(target.exists())
         self.assertFalse(installer._load_state(self.root)["entries"])
 
+    def test_standalone_skill_references_stay_inside_installed_tree(self):
+        import re
+        installer.install(self.root, "project", "codex")
+        target = (self.root / installer.PROJECT["codex"]).resolve()
+        self.assertFalse((self.root / "docs").exists())
+        checked = 0
+        for document in target.rglob("*.md"):
+            for link in re.findall(r"\[[^\]]*\]\(([^)]+)\)", document.read_text()):
+                if "://" in link or link.startswith("#"):
+                    continue
+                resource = (document.parent / link.split("#")[0]).resolve()
+                self.assertTrue(resource.is_relative_to(target), (document, link))
+                self.assertTrue(resource.is_file(), (document, link))
+                checked += 1
+        self.assertGreater(checked, 0)
+        installer.uninstall(self.root, "project", "codex")
+        self.assertFalse(target.exists())
+
     def test_all_six_project_clients(self):
         for client in installer.CLIENTS:
             installer.install(self.root,"project",client)
