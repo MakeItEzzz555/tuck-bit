@@ -5,7 +5,7 @@ license: MIT
 compatibility: Portable Agent Skills; optional Python 3.10+ local profile inspector.
 metadata:
   author: TuckBit contributors
-  version: "0.1.2"
+  version: "0.3.0"
 ---
 
 # TuckBit: a just-in-time execution score for agents
@@ -20,11 +20,14 @@ Optional: orchestration, metrics. Activate optional playbooks only when the task
 Start with **the exact user request**, explicitly available project/global/session guidance, and verified host tool availability. Preserve all requirements, constraints, prohibitions, approvals and checks. TuckBit never overrides higher-priority host rules or accesses private reasoning. See [task-aware context contracts](references/task-contract.md) only for complex or tool-heavy work.
 
 1. Define the outcome, constraints, available evidence, risk, and a concrete stop condition. No elaborate plan for trivial requests.
+   For a self-contained low-risk task, keep Fast mode to targeted inspection, the change and its required check; no runtime setup or delegation is needed.
 2. Find the narrowest relevant code, docs, tool, or skill. Prefer exact identifiers and targeted file ranges; expand only when linked dependencies demand it.
 3. Prefer the host's native on-demand tool search. Treat indexed catalog metadata as a discovery hint, **never as authority to execute**.
 4. Use one agent for small work. If independent parallel tasks justify multiple agents, assign isolated ownership, evidence references and a concise result contract.
 5. Preserve correctness: run focused checks during edits, then required integration/release checks against the final revision. Reuse evidence only if inputs and environment are equivalent.
 6. Return a compact, verifiable receipt: changed files/commit, tests, risks, blockers and next step. Checkpoint longer work, and **stop** instead of repeatedly polling.
+
+When the optional runtime is explicitly available, use bound observations to adapt the plan and record which recommendations were actually followed. Missing metrics or activation evidence stay unknown. See runtime guidance only when local deterministic tooling will help this task.
 
 ## Load only the relevant reference
 
@@ -36,6 +39,7 @@ Start with **the exact user request**, explicitly available project/global/sessi
 - Budgets and iteration limits: references/budget.md
 - Optional multi-agent plan: references/orchestration.md
 - Optional metrics and experiments: references/metrics.md
+- Optional CLI, evidence packets, checkpoints and local workflow bookkeeping: references/runtime.md
 
 ## Mandatory boundaries
 

@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "skills" / "tuck-bit" / "assets" / "modules.json"
@@ -18,10 +19,12 @@ def read_json(path):
         raise ValueError(f"Expected JSON object in {path}")
     return obj
 
-def defaults():
-    obj = read_json(CATALOG)
+def defaults(catalog=None):
+    obj = read_json(CATALOG if catalog is None else catalog)
     mods = obj.get("modules", {})
-    if not isinstance(mods, dict) or not all(isinstance(v, bool) for v in mods.values()):
+    if (obj.get("profile", "balanced") not in VALID_PROFILES or not isinstance(mods, dict)
+            or not mods or any(not re.fullmatch(r"[a-z][a-z0-9_]*", k)
+                              or not isinstance(v, bool) for k, v in mods.items())):
         raise ValueError("Invalid default module catalog")
     return {"profile": obj.get("profile", "balanced"), "modules": mods.copy()}
 
@@ -41,11 +44,15 @@ def overlay(base, src, label):
         base["modules"].update(mods)
     return base
 
-def resolve(project, global_config=None, session_profile=None, enable=(), disable=()):
+def resolve(project, global_config=None, session_profile=None, enable=(), disable=(), project_only=False):
     result = defaults()
-    global_file = Path(global_config) if global_config else Path.home()/".tuck-bit"/"config.json"
     project_file = Path(project).expanduser().resolve()/".tuck-bit"/"config.json"
-    for path in (global_file, project_file):
+    if project_only and global_config is not None:
+        raise ValueError("Cannot combine project-only policy with a global config")
+    paths = [project_file]
+    if not project_only:
+        paths.insert(0, Path(global_config) if global_config else Path.home()/".tuck-bit"/"config.json")
+    for path in paths:
         if path.is_file():
             overlay(result, read_json(path), str(path))
     if session_profile:
@@ -55,47 +62,85 @@ def resolve(project, global_config=None, session_profile=None, enable=(), disabl
     overlay(result, {"modules": {k: True for k in enable} | {k: False for k in disable}}, "session")
     return result
 
-def doctor(root=ROOT):
-    problems=[]
-    skill = root/"skills"/"tuck-bit"/"SKILL.md"
-    refs = root/"skills"/"tuck-bit"/"references"
+def doctor_status(root=ROOT):
+    """Inspect only the selected source or skill directory; never activate a host."""
+    root = Path(root)
+    skill_only = (root/"SKILL.md").is_file()
+    skill_root = root if skill_only else root/"skills"/"tuck-bit"
+    skill = skill_root/"SKILL.md"
+    refs = skill_root/"references"
+    catalog = skill_root/"assets"/"modules.json"
     plugin = root/".claude-plugin"/"plugin.json"
-    for path in (skill, plugin, root/"README.md"):
+    issues=[]
+    def issue(code, message, hint):
+        issues.append({"code": code, "message": message, "hint": hint})
+    paths = (skill,) if skill_only else (skill, plugin, root/"README.md")
+    for path in paths:
         if not path.is_file():
-            problems.append(f"Missing: {path.relative_to(root)}")
-    if skill.is_file() and not skill.read_text(encoding="utf-8").startswith("---\nname: tuck-bit\n"):
-        problems.append("Invalid or missing skill frontmatter/name")
-    if plugin.is_file():
+            issue("missing_source_file", f"Missing: {path.relative_to(root)}",
+                  "Select a complete source checkout or an installed tuck-bit skill directory with --root.")
+    if skill.is_file():
+        try:
+            if not skill.read_text(encoding="utf-8").startswith("---\nname: tuck-bit\n"):
+                issue("invalid_skill", "Invalid or missing skill frontmatter/name", "Restore the canonical skill file.")
+        except (OSError, UnicodeError):
+            issue("unreadable_skill", "Cannot read skill instructions", "Check local file access and UTF-8 encoding.")
+    if not skill_only and plugin.is_file():
         try:
             manifest=read_json(plugin)
-            if manifest.get("name")!="tuck-bit": problems.append("Incorrect Claude plugin name")
-        except ValueError as exc: problems.append(str(exc))
-    for key in defaults()["modules"]:
+            if manifest.get("name")!="tuck-bit":
+                issue("invalid_plugin", "Incorrect Claude plugin name", "Restore the canonical plugin manifest.")
+        except (ValueError, UnicodeError):
+            issue("invalid_plugin", "Cannot read Claude plugin manifest", "Restore valid UTF-8 JSON plugin metadata.")
+    try:
+        modules = defaults(catalog)["modules"]
+    except (ValueError, UnicodeError):
+        code = "invalid_catalog" if catalog.is_file() else "missing_catalog"
+        issue(code, "Cannot read a valid module catalog", "Restore assets/modules.json from the same canonical distribution.")
+        modules = {}
+    for key in modules:
         if not (refs/f"{key}.md").is_file():
-            problems.append(f"Missing playbook: {key}")
-    return problems
+            issue("missing_playbook", f"Missing playbook: {key}", "Restore the matching references directory.")
+    return {"schema": 1, "status": "fail" if issues else "pass",
+            "layout": "skill-only" if skill_only else "source", "issues": issues,
+            "scope": "local packaging; host availability and activation are unverified",
+            "runtime": "Optional utilities are separate from skill installation; no runtime is installed or invoked."}
+
+def doctor(root=ROOT):
+    return [issue["message"] for issue in doctor_status(root)["issues"]]
 
 def main():
     p=argparse.ArgumentParser(description="TuckBit Phase 1 local inspector (never invokes an AI agent).")
     sub=p.add_subparsers(dest="command",required=True)
-    sub.add_parser("doctor",help="check installed source layout; read-only")
+    d=sub.add_parser("doctor",help="check source or skill packaging; read-only, no host activation")
+    d.add_argument("--root",type=Path,default=ROOT,help="source checkout or installed tuck-bit skill directory")
+    d.add_argument("--json",action="store_true",help="sanitized machine-readable status with reason codes")
     c=sub.add_parser("config",help="print resolved module policy; read-only")
     c.add_argument("--project",default=".")
     c.add_argument("--global-config",default=None)
+    c.add_argument("--project-only",action="store_true",help="read defaults and project policy only; ignore global configuration")
+    c.add_argument("--json-errors",action="store_true",help="emit sanitized JSON errors on stderr")
     c.add_argument("--profile",choices=VALID_PROFILES)
     c.add_argument("--enable",action="append",default=[],metavar="MODULE")
     c.add_argument("--disable",action="append",default=[],metavar="MODULE")
     args=p.parse_args()
     if args.command=="doctor":
-        problems=doctor()
-        print("TuckBit doctor: "+("PASS" if not problems else "FAIL"))
-        for item in problems: print(" - "+item)
-        return 0 if not problems else 1
+        status=doctor_status(args.root)
+        if args.json:
+            print(json.dumps(status,indent=2))
+        else:
+            print("TuckBit doctor: "+status["status"].upper())
+            for item in status["issues"]: print(" - "+item["message"])
+        return 0 if status["status"]=="pass" else 1
     try:
-        print(json.dumps(resolve(args.project,args.global_config,args.profile,args.enable,args.disable),indent=2))
+        print(json.dumps(resolve(args.project,args.global_config,args.profile,args.enable,args.disable,args.project_only),indent=2))
         return 0
-    except ValueError as exc:
-        print(f"TuckBit configuration error: {exc}",file=os.sys.stderr)
+    except (ValueError, OSError, UnicodeError) as exc:
+        if args.json_errors:
+            print(json.dumps({"schema":1,"status":"error","code":"invalid_configuration",
+                              "message":"Cannot resolve module policy; check catalog and selected configuration files."}),file=os.sys.stderr)
+        else:
+            print(f"TuckBit configuration error: {exc}",file=os.sys.stderr)
         return 2
 
 if __name__ == "__main__":

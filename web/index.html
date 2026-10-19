@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light"><meta name="description" content="A private, local-first workspace for coding-agent usage and independently qualified benchmark evidence.">
+<title>TuckBit Observatory</title>
+<link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles/observatory.css">
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to observations</a>
+<header class="topbar">
+<a class="wordmark" href="#overview" aria-label="TuckBit Observatory, Command Center"><img src="assets/mark.svg" width="25" height="25" alt=""><span>TuckBit <strong>Observatory</strong></span></a>
+<div class="local-status"><span class="status-dot"></span>Local workspace<span class="status-divider">/</span><span id="capture-status">Capture off</span></div>
+<div class="top-actions"><button id="import-top" class="button primary" type="button">Import files</button><button id="theme-toggle" class="icon-button" type="button" aria-label="Switch to light theme" title="Switch theme"></button></div>
+</header>
+<div class="app-shell">
+<aside class="sidebar"><nav aria-label="Workspace" id="navigation"></nav><div class="sidebar-note"><span class="small-label">PRIVATE BY DESIGN</span><p>Local observations.<br>Explicit evidence.<br>No background collection.</p><a href="#settings">Sources & privacy</a></div></aside>
+<main id="main" tabindex="-1">
+<div class="workspace-bar"><div id="breadcrumb">WORKSPACE / OBSERVATIONS</div><div class="dataset-control"><label for="dataset">Data</label><select id="dataset"><option value="imported">My imports</option><option value="demo">Synthetic demo</option><option value="empty">Empty workspace</option></select><button id="refresh" class="quiet-button" type="button">Refresh</button></div></div>
+<div id="notice" role="status" aria-live="polite"></div>
+<div class="page-heading"><div><h1 id="page-title">Command Center</h1><p id="page-description">Recorded observations, with their limits intact.</p></div><div id="page-actions"></div></div>
+<form id="filters" class="filters" aria-label="Observation filters">
+<label>Period<select id="period"><option value="all">All time</option><option value="today">Today</option><option value="7d">Last 7 days</option><option value="30d">Last 30 days</option><option value="custom">Custom range</option></select></label>
+<label>Agent<select id="agent"><option value="">All agents</option></select></label><label>Provider<select id="provider"><option value="">All providers</option></select></label><label>Model<select id="model"><option value="">All models</option></select></label><label>Project<select id="project"><option value="">All projects</option></select></label>
+<div id="custom-range" class="custom-range" hidden><label>From<input id="from-date" type="date"></label><label>Through<input id="to-date" type="date"></label><span>Local calendar days, both dates included.</span></div>
+</form>
+<div id="view" aria-busy="true"><div class="loading-state"><div class="loading-line"></div><h2>Opening your workspace</h2><p>Loading sanitized observations. No personal sessions are accessed.</p></div></div>
+<footer class="workspace-footer"><span id="source-summary">Loading source coverage…</span><a href="#activation">Inspect activation & evidence</a></footer>
+</main></div>
+<input type="file" id="file-input" accept=".json,.jsonl,application/json,application/x-ndjson" multiple hidden>
+<dialog id="session-dialog" aria-labelledby="dialog-title"><div class="dialog-toolbar"><span id="dialog-title">Session observation</span><button type="button" id="close-dialog" class="icon-button" aria-label="Close session details"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div id="session-content"></div></dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+</body></html>

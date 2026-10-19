@@ -34,7 +34,9 @@ HIGH_RISK = " Preserve mandatory risk, security and rollback checks."
 MULTI = " Delegate only independent, owned work when authorized."
 
 def advise(event, host):
-    expected = "UserPromptSubmit" if host=="claude" else "BeforeAgent"
+    expected = {"claude":"UserPromptSubmit", "codex":"UserPromptSubmit", "gemini":"BeforeAgent"}.get(host)
+    if expected is None:
+        return {}
     if not isinstance(event, dict) or event.get("hook_event_name") != expected:
         return {}
     prompt = event.get("prompt")
@@ -48,7 +50,7 @@ def advise(event, host):
     if PARALLEL.search(prompt):
         message += MULTI
     # Nothing about the original prompt or paths is echoed to stdout.
-    if host == "claude":
+    if host in ("claude", "codex"):
         return {"hookSpecificOutput":{
             "hookEventName":"UserPromptSubmit",
             "additionalContext":message}}
@@ -58,7 +60,7 @@ def advise(event, host):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--host", choices=("claude","gemini"),required=True)
+    parser.add_argument("--host", choices=("claude","gemini","codex"),required=True)
     args=parser.parse_args()
     try:
         payload=sys.stdin.buffer.read(MAX_EVENT_BYTES+1)

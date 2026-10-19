@@ -1,3 +1,9 @@
+## Public Observatory local preview — 2026-10-19
+
+- Adds the opt-in Observatory dashboard and local server from the internally reviewed V9 implementation, with synthetic default data, selected-file import, bounded normalization, privacy controls and descriptive usage analytics.
+- Updates the portable canonical skill and deterministic runtime modules to the tested v0.3.0 source family; preserves public multilingual fallbacks and distribution manifests.
+- Excludes private research receipts, grader answers, unselected Codex sessions and historical source archives. V9 real-file acceptance, invoice reconciliation and native efficacy remain incomplete.
+
 # Changelog
 
 ## Unreleased — public README onboarding refresh

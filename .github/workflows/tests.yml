@@ -20,6 +20,8 @@ jobs:
         run: python3 scripts/build_readme_flow.py --check
       - name: Unit tests
         run: python3 -m unittest discover -s tests -v
+      - name: Observatory synthetic analytics (no model)
+        run: node --test tests/dashboard/*.test.mjs
       - name: Validate multilingual docs and opt-in skills (no model)
         run: python3 scripts/check_i18n.py
       - name: Public-source privacy audit

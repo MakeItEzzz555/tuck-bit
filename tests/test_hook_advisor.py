@@ -11,6 +11,20 @@ hook=importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(hook)
 
 class HookAdvisorTests(unittest.TestCase):
+    def test_codex_documented_prompt_event_is_advisory_only(self):
+        event={"hook_event_name":"UserPromptSubmit","prompt":"Fix a bug in the repository","transcript_path":"DO_NOT_READ_PRIVATE_SESSION"}
+        result=hook.advise(event,"codex")
+        self.assertEqual(result['hookSpecificOutput']['hookEventName'],'UserPromptSubmit')
+        self.assertNotIn('DO_NOT_READ_PRIVATE_SESSION',json.dumps(result))
+        self.assertNotIn('permissionDecision',json.dumps(result))
+
+    def test_codex_opt_out_and_pretool_are_noops(self):
+        self.assertEqual(hook.advise({'hook_event_name':'UserPromptSubmit','prompt':'Fix code without TuckBit'},'codex'),{})
+        self.assertEqual(hook.advise({'hook_event_name':'PreToolUse','prompt':'Fix code','tool_input':{'private':'ignored'}},'codex'),{})
+
+    def test_unsupported_provider_is_noop(self):
+        self.assertEqual(hook.advise({'hook_event_name':'BeforeAgent','prompt':'Fix code'},'unsupported'),{})
+
     def event(self,host,prompt):
         return {"hook_event_name":"UserPromptSubmit" if host=="claude" else "BeforeAgent",
                 "session_id":"sensitive-private-id","prompt":prompt}

@@ -1,0 +1,52 @@
+{
+  "version": "D08-medium-v8-controls/1",
+  "implementation_sha256": "9388b3f0045f313087222703f12e35408399138a7fc78b2bfdd984ba85847d2b",
+  "source_revision": "b185b8d169225075ffd6c278e4647077f3445bfc131be5504fbf32a92bbe1727",
+  "grader_sha256": "098888977c012e0a0a77f2b58af6e8063fdea0fcc8b93e5b513cf0c03e742821",
+  "environment": "Python 3.13.12 / SQLite 3.52.0",
+  "scope": "Versioned synthetic control companion; original corpus and historical receipts unchanged. Not a native measurement or general migration/idempotency guarantee.",
+  "candidates": [
+    {
+      "id": "D01-medium",
+      "structural": "Existing frozen corpus controls",
+      "controls": "Structural/pure controls only; executable companion where documented",
+      "gap": "Add real DOM behavior, keyboard/accessibility and responsive assertions; build/HTML structure is insufficient."
+    },
+    {
+      "id": "D04-medium",
+      "structural": "Existing frozen corpus controls",
+      "controls": "Structural/pure controls only; executable companion where documented",
+      "gap": "Add real multi-file import/API compatibility execution in a reviewed candidate sandbox."
+    },
+    {
+      "id": "D07-medium",
+      "structural": "Existing frozen corpus controls",
+      "controls": "Existing bounded SQLite reference / negative controls",
+      "gap": "Existing bounded real SQLite query/result controls supported; V6 trials still need qualified calibration and approval."
+    },
+    {
+      "id": "D08-medium",
+      "structural": "Existing frozen corpus controls",
+      "controls": "V8: 3 seeded variants / 33 reference assertions / 17 negative controls; rollback and fresh-database recovery",
+      "gap": "Existing bounded SQLite migration, data invariants, transactions and rollback controls supported; V6 trials still gated."
+    },
+    {
+      "id": "D09-small",
+      "structural": "Existing frozen corpus controls",
+      "controls": "Structural/pure controls only; executable companion where documented",
+      "gap": "Add real CLI subprocess/error/output integration in reviewed isolation, including exit-zero wrong answers."
+    },
+    {
+      "id": "D13-complex",
+      "structural": "Existing frozen corpus controls",
+      "controls": "Structural/pure controls only; executable companion where documented",
+      "gap": "Add real authorization-boundary and adversarial tests, beyond structured safe-operation assertions."
+    },
+    {
+      "id": "D19-medium",
+      "structural": "Existing frozen corpus controls",
+      "controls": "Structural/pure controls only; executable companion where documented",
+      "gap": "Add real checkpoint interruption/idempotence/resumption and stale-evidence behavior, beyond JSON decisions."
+    }
+  ]
+}
