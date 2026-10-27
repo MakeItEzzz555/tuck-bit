@@ -216,6 +216,49 @@ class AvailabilityTests(unittest.TestCase):
             with self.assertRaises(prof.ProfileError):
                 prof.load(path)
 
+    def test_context_rereads_separate_unchanged_changed_and_post_mutation(self):
+        a, b, x, y = "a"*64, "b"*64, "1"*64, "2"*64
+        read = lambda source, result: {"category": "tool_read", "role": "root",
+                                       "target_sha256": source, "result_sha256": result}
+        trace = {"schema": 1, "outcome": {"verified": True, "acceptance_checks_passed": True}, "events": [
+            read(a, x), {**read(a, x), "role": "worker"}, read(a, y),
+            {"category": "tool_write", "role": "root", "target_sha256": a},
+            read(a, y), read(b, x), {"category": "test", "role": "root", "target_sha256": b}, read(b, x)]}
+        rereads = prof.profile(trace)["context_rereads"]
+        self.assertEqual(rereads, {"coverage": "complete", "tracked_reads": 6, "untracked_reads": 0,
+                                   "first_reads": 2, "unchanged_content": 2, "changed_content": 1,
+                                   "after_mutation": 1})
+        self.assertNotIn(a, json.dumps(prof.profile(trace)))
+
+    def test_unscoped_write_counts_next_reread_as_post_mutation(self):
+        read = {"category": "tool_read", "role": "root", "target_sha256": "a"*64, "result_sha256": "1"*64}
+        trace = self.trace([])
+        trace["events"] = [read, {"category": "tool_write", "role": "worker"}, read]
+        rereads = prof.profile(trace)["context_rereads"]
+        self.assertEqual((rereads["after_mutation"], rereads["unchanged_content"]), (1, 0))
+
+    def test_reread_coverage_is_explicit_and_partial_deltas_are_unknown(self):
+        tracked = {"category": "tool_read", "role": "root", "target_sha256": "a"*64, "result_sha256": "1"*64}
+        partial = self.trace([])
+        partial["events"] = [tracked, tracked, {"category": "tool_read", "role": "root", "target_sha256": "a"*64}]
+        self.assertEqual(prof.profile(partial)["context_rereads"]["coverage"], "partial")
+        self.assertEqual(prof.profile(partial)["context_rereads"]["untracked_reads"], 1)
+        self.assertEqual(prof.profile(self.trace([{}]))["context_rereads"]["coverage"], "unknown")
+        complete = self.trace([])
+        complete["events"] = [tracked, tracked]
+        differences = prof.compare(complete, partial)["descriptive_differences"]
+        self.assertIsNone(differences["context_rereads_unchanged_content"]["delta_candidate_minus_baseline"])
+        differences = prof.compare(complete, complete)["descriptive_differences"]
+        self.assertEqual(differences["context_rereads_unchanged_content"]["delta_candidate_minus_baseline"], 0)
+
+    def test_malformed_source_digest_rejected(self):
+        with self.assertRaises(prof.ProfileError):
+            prof.profile(self.trace([{"target_sha256": "src/app.py:10-20"}]))
+
+    def test_identical_repeats_are_split_by_category(self):
+        report = prof.profile(sample())
+        self.assertEqual(report["identical_repeats_by_category"], {"tool_read": 1})
+
     def test_invocations_retries_and_overhead_use_complete_only_deltas(self):
         before = self.trace([{"tool_invocations": 3, "retries": 1, "delegation_overhead_ms": 5}])
         after = self.trace([{"tool_invocations": 2, "retries": 0}])
