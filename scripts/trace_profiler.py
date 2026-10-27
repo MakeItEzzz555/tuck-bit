@@ -21,7 +21,7 @@ CATEGORIES = {"tool_read", "tool_write", "test", "build", "handoff",
 ROLES = {"root", "worker", "reviewer"}
 FIELDS = {"category", "role", "input_tokens", "cached_input_tokens",
           "output_tokens", "reasoning_output_tokens", "result_bytes",
-          "duration_ms", "operation_sha256", "result_sha256", "revision_sha256",
+          "duration_ms", "operation_sha256", "result_sha256", "revision_sha256", "target_sha256",
           "tool_invocations", "model_invocations", "failed_attempts", "retries",
           "context_bytes", "output_bytes", "delegations", "delegation_overhead_ms"}
 METRICS = ("input_tokens", "cached_input_tokens", "output_tokens",
@@ -95,9 +95,34 @@ def validate(trace):
         if (event.get("reasoning_output_tokens") is not None and event.get("output_tokens") is not None
                 and event["reasoning_output_tokens"] > event["output_tokens"]):
             raise ProfileError("Reasoning output cannot exceed reported total output")
-        for key in ("operation_sha256", "result_sha256", "revision_sha256"):
+        for key in ("operation_sha256", "result_sha256", "revision_sha256", "target_sha256"):
             if key in event and (not isinstance(event[key], str) or not DIGEST.fullmatch(event[key])):
                 raise ProfileError("Malformed digest: " + key)
+
+REREADS = ("first_reads", "unchanged_content", "changed_content", "after_mutation")
+
+def context_rereads(events):
+    """Classify tool reads by opaque target digest, in the order events were supplied."""
+    counts = Counter({key: 0 for key in ("tracked_reads", "untracked_reads") + REREADS})
+    seen, mutated = {}, set()
+    for event in events:
+        source = event.get("target_sha256")
+        if event["category"] == "tool_write":
+            # A write without a target may have touched anything already read.
+            mutated |= {source} if source else set(seen)
+        elif event["category"] == "tool_read":
+            if not (source and "result_sha256" in event):
+                counts["untracked_reads"] += 1
+                continue
+            counts["tracked_reads"] += 1
+            counts["first_reads" if source not in seen else "after_mutation" if source in mutated
+                   else "unchanged_content" if seen[source] == event["result_sha256"]
+                   else "changed_content"] += 1
+            seen[source] = event["result_sha256"]
+            mutated.discard(source)
+    tracked, untracked = counts["tracked_reads"], counts["untracked_reads"]
+    return {"coverage": "complete" if tracked and not untracked else "partial" if tracked else "unknown",
+            **counts}
 
 def profile(trace):
     validate(trace)
@@ -129,6 +154,9 @@ def profile(trace):
     coverage = {key: {"measured_events": available[key], "total_events": counts["events"],
                        "status": "complete" if available[key] and available[key] == counts["events"]
                        else "partial" if available[key] else "unknown"} for key in METRICS}
+    repeats = Counter()
+    for (category, *_), n in identical.items():
+        repeats[category] += n - 1
     paired = [e["input_tokens"] - e["cached_input_tokens"] for e in trace["events"]
               if e.get("input_tokens") is not None and e.get("cached_input_tokens") is not None]
     result = {
@@ -152,10 +180,13 @@ def profile(trace):
         "sum_event_durations_ms": complete("duration_ms"),
         "large_results_16k_or_more": big,
         "potential_identical_repeats": sum(n-1 for n in identical.values() if n>1),
+        "identical_repeats_by_category": {k: v for k, v in sorted(repeats.items()) if v},
+        "context_rereads": context_rereads(trace["events"]),
         "limitations": [
             "Model/provider accounting varies; tokens are only caller-reported.",
             "Sum of event durations is not end-to-end wall time (overlap is possible).",
             "Identical calls may be necessary; a duplicate count is not proven waste.",
+            "Rereads follow supplied event order; overlapping ranges with different target digests are not linked.",
             "This does not collect raw prompts, file paths, tool arguments or outputs.",
             "Quality, cost and savings require controlled real-world A/B trials."
         ]
@@ -177,6 +208,11 @@ def compare(base, candidate):
     for metric in METRICS:
         left, right = a["reported_metrics"][metric], b["reported_metrics"][metric]
         differences["metric_" + metric] = {"baseline": left, "candidate": right,
+            "delta_candidate_minus_baseline": right-left if left is not None and right is not None else None}
+    for key in REREADS:
+        left, right = (x["context_rereads"][key] if x["context_rereads"]["coverage"] == "complete"
+                       else None for x in (a, b))
+        differences["context_rereads_" + key] = {"baseline": left, "candidate": right,
             "delta_candidate_minus_baseline": right-left if left is not None and right is not None else None}
     comparable = a["verified_outcome"] and a["acceptance_checks_passed"] and (
         b["verified_outcome"] and b["acceptance_checks_passed"])

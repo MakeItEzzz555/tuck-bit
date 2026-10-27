@@ -29,7 +29,21 @@ Allowed event categories: `tool_read`, `tool_write`, `test`, `build`, `handoff`,
 
 Optional **hex SHA-256 digests** `operation_sha256`, `result_sha256`, and `revision_sha256` allow identifying repeated identical operations with the same observed output at an unchanged revision. No tool arguments, prompts, paths, raw logs, URLs, credentials, or private reasoning should be included. Unknown input keys are rejected rather than silently accepted.
 
-**A possible repetition is not proven waste.** An unchanged test command might deliberately validate environmental flakiness, and an identical tool read might be necessary after an external state change.
+**A possible repetition is not proven waste.** An unchanged test command might deliberately validate environmental flakiness, and an identical tool read might be necessary after an external state change. `identical_repeats_by_category` splits the count so repeated `test`/`build` validation is reported apart from repeated reads.
+
+### Context rereads
+
+An optional `target_sha256` is an opaque digest of what a `tool_read` or `tool_write` targeted (for example a file and line range, or a symbol), computed by the caller. Never send the path itself. A read is **tracked** when it carries both `target_sha256` and `result_sha256`. The profiler walks events in the supplied order and reports `context_rereads`:
+
+| Field | Meaning |
+|---|---|
+| `first_reads` | First tracked read of a source. |
+| `unchanged_content` | Reread with the same result digest and no write since. **Potentially redundant**, not proven waste. |
+| `changed_content` | Reread whose content changed without an observed write (external change). |
+| `after_mutation` | Reread after a write to that source: expected verification. A `tool_write` without `target_sha256` counts as touching every source already read. |
+| `untracked_reads` | Reads missing either digest; they are not classified. |
+
+`coverage` is `complete` only when every `tool_read` is tracked, `partial` when some are, and `unknown` when none are. `compare` reports reread deltas only when both traces are `complete`. Rereads across roles are counted the same way; the report does not split them by role. Overlapping ranges with different target digests are not linked; choose one source granularity per trace.
 
 ## Use
 

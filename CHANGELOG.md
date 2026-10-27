@@ -12,6 +12,12 @@
 
 # Changelog
 
+## Unreleased — context reread profiling (#5)
+
+- `trace_profiler.py` accepts an optional opaque `target_sha256` and reports `context_rereads`: first reads, unchanged-content rereads (potentially redundant), changed-content rereads and post-mutation rereads, with explicit coverage. `compare` gives reread deltas only when both traces are fully tracked.
+- Splits potential identical repeats by category so repeated test/build validation is not mixed with repeated reads.
+- No collection adapter emits `target_sha256` yet; deriving it from real host exports needs its own privacy review. No efficiency claim follows from these counts.
+
 ## Unreleased — public README onboarding refresh
 
 - Redesigned TuckBit's initial README viewport around existing light/dark branding, accessible responsive editorial signal-flow art and a clear newcomer path.
