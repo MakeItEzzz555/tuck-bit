@@ -27,7 +27,7 @@ def manifests(data):
         },
         ".claude-plugin/marketplace.json":{
             "name":market,
-            "description":"Private TuckBit development plugin catalog; opt-in only.",
+            "description":"TuckBit plugin catalog; opt-in only.",
             "owner":{"name":publisher},
             "plugins":[{"name":name,"description":desc,
                         "source":{"source":"github","repo":publisher+"/"+name}}]
