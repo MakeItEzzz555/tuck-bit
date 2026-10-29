@@ -1,3 +1,9 @@
+## Unreleased — Headroom companion (opt-in)
+
+- `docs/USING_WITH_HEADROOM.md`: how TuckBit (selects context), [Headroom](https://github.com/headroomlabs-ai/headroom) (compresses it) and the Observatory (measures the result) fit together. No combined or comparative savings are claimed.
+- `scripts/headroom_compare.py`: compares explicitly selected sessions run without and with a compressor. Reports per-session means of observed counters, the cache fraction, an optional configured cost scenario and flags such as `cache_fraction_decreased`; bounded error codes only.
+- `scripts/json_densify.py`: stdlib-only, opt-in schema+CSV densification of uniform JSON arrays, returned only when it decodes to the same parsed value. The format idea comes from Headroom (Apache-2.0); the implementation is independent and not connected to agent execution. Reports characters and bytes, never tokens.
+
 ## Public Observatory completeness fix — 2026-10-19
 
 - Restores the synthetic Codex importer fixture (`tests/dashboard/fixtures/codex-rollout.jsonl`), which `*.jsonl` in `.gitignore` had silently excluded, so 26 importer and server tests errored in CI. Only that exact reviewed path is exempt from the ignore rule and the public audit's filename check; its contents are still scanned.

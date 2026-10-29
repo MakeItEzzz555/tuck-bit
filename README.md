@@ -296,7 +296,7 @@ For security vulnerabilities, use GitHub **private vulnerability reporting** rat
 
 ## Research, architecture and contribution
 
-[Privacy](docs/PRIVACY.md) · [Capability index](docs/CAPABILITY_REGISTRY.md) · [Profiler](docs/TELEMETRY.md) · [Provider execution research](docs/PROVIDER_EXECUTION.md) · [Opt-in hook adapters](docs/HOOKS.md) · [Task-aware design](docs/TASK_AWARE.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md) · [Security](SECURITY.md) · [Tests](docs/TESTING.md) · [Contributing](CONTRIBUTING.md)
+[Privacy](docs/PRIVACY.md) · [Capability index](docs/CAPABILITY_REGISTRY.md) · [Profiler](docs/TELEMETRY.md) · [Using with Headroom](docs/USING_WITH_HEADROOM.md) · [Provider execution research](docs/PROVIDER_EXECUTION.md) · [Opt-in hook adapters](docs/HOOKS.md) · [Task-aware design](docs/TASK_AWARE.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md) · [Security](SECURITY.md) · [Tests](docs/TESTING.md) · [Contributing](CONTRIBUTING.md)
 
 TuckBit is **public and MIT-licensed**, but remains an early developer preview. Contributions, issue reports and reproducible experiments are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md), the [public roadmap](docs/ROADMAP.md), and [SECURITY.md](SECURITY.md) before sharing logs or code.
 
