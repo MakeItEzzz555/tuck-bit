@@ -88,6 +88,15 @@ class CompareTests(unittest.TestCase):
         with self.assertRaisesRegex(d.ImportError,'^conflicting_session$'):compare([session(A,10,5),session(A,11,5)],[session(B,10,5)])
         with self.assertRaisesRegex(d.ImportError,'^conflicting_session$'):compare([session(A,10,5),without_counter(session(A,10,5))],[session(B,10,5)])
 
+    def test_estimated_counters_are_not_observed_sessions(self):
+        estimated=copy.deepcopy(session(C,5,0));estimated['sessions'][0]['metrics']['output_tokens']['status']='estimated'
+        result=compare([session(A,1000,500),estimated],[session(B,600,400)])
+        self.assertEqual((result['without']['complete_sessions'],result['without']['incomplete_sessions_excluded']),(1,1))
+
+    def test_incomplete_session_in_other_arm_still_counts_as_shared(self):
+        with self.assertRaisesRegex(d.ImportError,'^session_in_both_arms$'):
+            compare([session(A,10,5)],[without_counter(session(A,10,5)),session(B,10,5)])
+
     def test_duplicate_import_counted_once(self):
         a=session(A,1000,500)
         self.assertEqual(compare([a,a],[session(B,800,500)])['without']['complete_sessions'],1)
@@ -104,6 +113,8 @@ class CompareTests(unittest.TestCase):
             self.assertEqual(run('--without',str(FIXTURE),'--with',folder),{'error':'unreadable_file'})
             self.assertEqual(run('--without',str(FIXTURE),'--with',str(binary)),{'error':'unsupported_file'})
             self.assertNotIn('PRIVATE_CANARY',json.dumps(run('--without',str(FIXTURE),'--with',str(garbage))))
+            big=Path(folder)/'big.jsonl';big.write_bytes(b' '*(4*1024*1024+1))
+            self.assertEqual(run('--without',str(FIXTURE),'--with',str(big)),{'error':'size_limit'})
             self.assertEqual(run('--without',str(FIXTURE),'--with',str(FIXTURE),'--prices','{bad'),{'error':'invalid_prices'})
             self.assertEqual(run('--without',str(FIXTURE),'--with',str(FIXTURE),'--prices','NaN'),{'error':'invalid_prices'})
 

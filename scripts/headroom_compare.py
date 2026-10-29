@@ -8,7 +8,6 @@ import argparse
 import json
 import math
 import re
-from pathlib import Path
 
 import dashboard_export as exporter
 
@@ -27,20 +26,21 @@ def validate_prices(prices):
 
 
 def _arm(documents):
-    """Unique sessions by ID; a repeated ID must carry identical observations."""
+    """Unique sessions by ID; a repeated ID must carry identical observations. Also returns every ID seen."""
     seen = {}
     for document in documents:
         for row in document['sessions']:
             metrics = row.get('metrics') or {}
             values = {key: (metrics.get(key) or {}).get('value') for key in COUNTERS}
             writes = sorted(key for key in metrics if re.search(r'cache.*(write|creation)', key, re.I))
+            estimated = any((metrics.get(key) or {}).get('status') == 'estimated' for key in COUNTERS)
             observation = (values, row.get('provider'), row.get('model'), row.get('kind'),
-                           [(metrics[key] or {}).get('value') for key in writes])
+                           [(metrics[key] or {}).get('value') for key in writes], estimated)
             if seen.setdefault(row['id'], observation) != observation:
                 exporter._fail('conflicting_session')
-    complete = {sid: o for sid, o in seen.items() if all(type(v) is int and v >= 0 for v in o[0].values())
+    complete = {sid: o for sid, o in seen.items() if not o[5] and all(type(v) is int and v >= 0 for v in o[0].values())
                 and o[0]['cached_input_tokens'] + o[0]['uncached_input_tokens'] == o[0]['input_tokens']}
-    return complete, len(seen) - len(complete)
+    return complete, len(seen) - len(complete), set(seen)
 
 
 def _summary(sessions, excluded):
@@ -65,9 +65,9 @@ def _cost_blocker(arms):
 def compare(without, with_, prices=None):
     """Each arm is a list of normalized Observatory documents; prices is an optional configured scenario."""
     if prices is not None: validate_prices(prices)
-    base, base_excluded = _arm(without)
-    treated, treated_excluded = _arm(with_)
-    if set(base) & set(treated): exporter._fail('session_in_both_arms')
+    base, base_excluded, base_ids = _arm(without)
+    treated, treated_excluded, treated_ids = _arm(with_)
+    if base_ids & treated_ids: exporter._fail('session_in_both_arms')
     a, b = _summary(base, base_excluded), _summary(treated, treated_excluded)
     blocker = _cost_blocker((base, treated)) if prices else 'prices_not_configured'
     if blocker is None:
@@ -107,11 +107,16 @@ def main(argv=None):
         documents = []
         for path in paths:
             try:
-                text = Path(path).read_text(encoding='utf-8')
-            except UnicodeDecodeError:
-                exporter._fail('unsupported_file')
+                with open(path, 'rb') as handle:
+                    data = handle.read(exporter.MAX_BYTES + 1)  # bounded: never load an oversized file whole
             except OSError:
                 exporter._fail('unreadable_file')
+            if len(data) > exporter.MAX_BYTES:
+                exporter._fail('size_limit')
+            try:
+                text = data.decode('utf-8')
+            except UnicodeDecodeError:
+                exporter._fail('unsupported_file')
             documents.append(exporter.import_text(text))
         return documents
     try:

@@ -76,6 +76,8 @@ def expand(text):
         if not KEY.fullmatch(key) or kind not in PARSE:
             raise ValueError('invalid_schema')
         columns.append((key, PARSE[kind], nullable))
+    if len({key for key, _, _ in columns}) != len(columns):
+        raise ValueError('invalid_schema')  # a dict row would silently keep only the last duplicate column
     rows = []
     for cells in csv.reader(io.StringIO(body)):
         if len(cells) != len(columns):
@@ -119,8 +121,12 @@ def main(argv=None):
     parser.add_argument('file', help='explicitly selected JSON file')
     args = parser.parse_args(argv)
     try:
-        with open(args.file, encoding='utf-8') as handle:
-            text = handle.read()
+        with open(args.file, 'rb') as handle:
+            data = handle.read(MAX_BYTES + 1)  # bounded: never load an oversized file whole
+        if len(data) > MAX_BYTES:
+            print(json.dumps({'error': 'size_limit'}), file=sys.stderr)
+            return 2
+        text = data.decode('utf-8')
     except (OSError, UnicodeDecodeError):
         print(json.dumps({'error': 'unreadable_file'}), file=sys.stderr)
         return 2

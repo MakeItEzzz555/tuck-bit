@@ -26,11 +26,11 @@ python3 scripts/headroom_compare.py \
 
 The output gives per-session means of observed input, cached, uncached and output tokens, the cache fraction, and an optional **configured** cost scenario (your prices, not provider billing). It sets flags such as `cache_fraction_decreased` and `fewer_input_tokens_but_configured_cost_not_lower`.
 
-**Sample unit:** unique complete sessions. A session counts as complete when its input, cached input, uncached input and output were all observed, and cached plus uncached equals input. Incomplete sessions are counted separately (each unique session once) and never averaged in. An arm with no complete session has no mean; it is never shown as a zero.
+**Sample unit:** unique complete sessions. A session counts as complete when its input, cached input, uncached input and output were all observed (none marked `estimated`), and cached plus uncached equals input. A session ID selected in both arms is refused even when one copy is incomplete. Incomplete sessions are counted separately (each unique session once) and never averaged in. An arm with no complete session has no mean; it is never shown as a zero.
 
 **Configured cost:** you supply three finite rates per million tokens, each between 0 and 1,000,000. NaN, infinity, booleans and missing or extra fields are refused with `invalid_prices`. The cost is computed only when every session in both arms shares one known provider and model, none is a control or demo, and no cache writes were observed. Otherwise `cost_unavailable_reason` explains why. This matches the dashboard's legacy configured scenario and is never a bill, tier, subscription or cache-write price.
 
-**Errors** are bounded codes, with no file contents, paths or tracebacks: `unreadable_file`, `unsupported_file`, `invalid_prices`, `session_in_both_arms`, `conflicting_session`, plus the importer's own codes. Only the files you name are read.
+**Errors** are bounded codes, with no file contents, paths or tracebacks: `unreadable_file`, `unsupported_file`, `size_limit` (files over 4 MiB are refused before they are read whole), `invalid_prices`, `session_in_both_arms`, `conflicting_session`, plus the importer's own codes. Only the files you name are read.
 
 Sessions are user-selected, not matched tasks, and success is not assessed. Arms can differ in task difficulty, so differences are observations, not proven or causal savings.
 
@@ -49,7 +49,7 @@ Dense text is returned only when decoding it reproduces the **parsed JSON value*
 The original is returned unchanged for:
 - nested values, mixed column types, or an empty string next to null;
 - duplicate keys, NaN or infinity, or lone surrogates;
-- malformed input or input over 4 MiB;
+- malformed input or input over 4 MiB (the command-line tool refuses files over 4 MiB with `size_limit` instead of reading them whole);
 - arrays that are not at the top level.
 
 The command-line tool reports characters and UTF-8 bytes, never tokens. The densifier is opt-in and is not connected to agent execution. Character reduction is not token or cost reduction until it is measured with the comparison above on successful tasks.

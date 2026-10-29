@@ -58,6 +58,9 @@ class DensifyTests(unittest.TestCase):
         self.assertGreater(len(big.encode()),4*1024*1024)
         self.assertEqual(densify(big),(big,False))
 
+    def test_expand_rejects_duplicate_schema_keys(self):
+        with self.assertRaisesRegex(ValueError,'invalid_schema'):expand('[2]{a:int,a:int}\n1,2\n3,4\n')
+
     def test_value_equality_not_byte_equality(self):
         text='[{"a":1.50,"b":1e2},{"a":2.50,"b":3e2},{"a":3.50,"b":4e2}]'
         dense,applied=densify(text)
@@ -75,6 +78,9 @@ class DensifyTests(unittest.TestCase):
             self.assertEqual((p.returncode,stats['applied']),(0,True))
             self.assertEqual(expand(p.stdout),ROWS)
             self.assertLess(stats['densified_utf8_bytes'],stats['original_utf8_bytes'])
+            path.write_bytes(b' '*(4*1024*1024+1))
+            p=subprocess.run([sys.executable,script,str(path)],capture_output=True,text=True,timeout=30)
+            self.assertEqual((p.returncode,json.loads(p.stderr),p.stdout),(2,{'error':'size_limit'},''))
             path.write_bytes(b'\xff\xfe')
             p=subprocess.run([sys.executable,script,str(path)],capture_output=True,text=True,timeout=30)
             self.assertEqual((p.returncode,json.loads(p.stderr),p.stdout),(2,{'error':'unreadable_file'},''))
