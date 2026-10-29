@@ -1,49 +1,58 @@
-## Unreleased — Headroom companion (opt-in)
+# Changelog
+
+## 0.4.0 — First public release (2026-10-29)
+
+First tagged release. Versions 0.2 and 0.3.0 were untagged source-family versions; every public change since 0.1.2 is listed below. No token, cost, speed or accuracy savings are claimed.
+
+### Release metadata
+
+- Plugin, distribution and skill metadata (canonical and 14 locales) move to 0.4.0; skill instructions are unchanged.
+- The Claude Code marketplace description no longer calls the public catalog private.
+
+### Headroom companion (opt-in)
 
 - `docs/USING_WITH_HEADROOM.md`: how TuckBit (selects context), [Headroom](https://github.com/headroomlabs-ai/headroom) (compresses it) and the Observatory (measures the result) fit together. No combined or comparative savings are claimed.
 - `scripts/headroom_compare.py`: compares explicitly selected sessions run without and with a compressor. Reports per-session means of observed counters, the cache fraction, an optional configured cost scenario and flags such as `cache_fraction_decreased`; bounded error codes only.
 - `scripts/json_densify.py`: stdlib-only, opt-in schema+CSV densification of uniform JSON arrays, returned only when it decodes to the same parsed value. The format idea comes from Headroom (Apache-2.0); the implementation is independent and not connected to agent execution. Reports characters and bytes, never tokens.
 
-## Public Observatory completeness fix — 2026-10-19
+### Public Observatory completeness fix — 2026-10-19
 
 - Restores the synthetic Codex importer fixture (`tests/dashboard/fixtures/codex-rollout.jsonl`), which `*.jsonl` in `.gitignore` had silently excluded, so 26 importer and server tests errored in CI. Only that exact reviewed path is exempt from the ignore rule and the public audit's filename check; its contents are still scanned.
 - Publishes the 17 runtime test modules (and `tests/native_fixture.py`) that exercise already-published scripts without withheld research data, plus the synthetic `examples/benchmarks` inputs they use. Tests that need private receipts or the frozen grader corpus remain private.
 - CI now runs on Ubuntu and macOS with Python 3.10 and 3.13, installs real ripgrep, and reports every leg.
 
-## Public Observatory local preview — 2026-10-19
+### Public Observatory local preview — 2026-10-19
 
 - Adds the opt-in Observatory dashboard and local server from the internally reviewed V9 implementation, with synthetic default data, selected-file import, bounded normalization, privacy controls and descriptive usage analytics.
 - Updates the portable canonical skill and deterministic runtime modules to the tested v0.3.0 source family; preserves public multilingual fallbacks and distribution manifests.
 - Excludes private research receipts, grader answers, unselected Codex sessions and historical source archives. V9 real-file acceptance, invoice reconciliation and native efficacy remain incomplete.
 
-# Changelog
-
-## Unreleased — context reread profiling (#5)
+### context reread profiling (#5)
 
 - `trace_profiler.py` accepts an optional opaque `target_sha256` and reports `context_rereads`: first reads, unchanged-content rereads (potentially redundant), changed-content rereads and post-mutation rereads, with explicit coverage. `compare` gives reread deltas only when both traces are fully tracked.
 - Splits potential identical repeats by category so repeated test/build validation is not mixed with repeated reads.
 - No collection adapter emits `target_sha256` yet; deriving it from real host exports needs its own privacy review. No efficiency claim follows from these counts.
 
-## Unreleased — public README onboarding refresh
+### public README onboarding refresh
 
 - Redesigned TuckBit's initial README viewport around existing light/dark branding, accessible responsive editorial signal-flow art and a clear newcomer path.
 - Added a copyable, host-aware and permission-preserving install prompt plus an independent onboarding guide.
 - Added an evidence-bounded discoverability review of six open-source README references and static checks for prompt/asset consistency.
 
-## Unreleased — multilingual accessibility preview (2026-10-18)
+### multilingual accessibility preview (2026-10-18)
 
 - Added 14 human-language onboarding guides and translated Wiki landing-page sources, plus an English-indexed language switcher.
 - Added 14 optional, project-installable translated core Agent Skills without changing the canonical English skill or six distribution manifests.
 - Kept eight technical playbooks per locale as **explicitly labeled canonical English fallbacks** until complete translations and independent language review exist; do not represent the repository or all skills as fully translated.
 - Added deterministic locale integrity/provenance validation and a translation-feedback issue template; no inference or host permission changes.
 
-## Unreleased — reproducible offline task-bundle harness
+### reproducible offline task-bundle harness
 
 - Added versioned public fixture tasks that repeat from the same disposable Git commit in fresh worktrees.
 - Added per-task condition order counterbalancing, mandatory checks, budgets, failure distributions and profiler-compatible event summaries.
 - Published an example 24-trial offline report with explicit no-model/no-savings limitations and CI checks.
 
-## Unreleased — public onboarding and community preparation
+### public onboarding and community preparation
 
 - Corrected public install and compatibility documentation; added open contributor and security reporting guidance.
 - Added a broad public roadmap while retaining the implementation roadmap in a separate private workspace.
@@ -56,7 +65,7 @@
 - Added a strict schema for caller-supplied redacted numeric agent events, with descriptive potential-repeat and large-result counts (not claimed waste).
 - Connected optional trace observations to workflow routing, with deterministic tests and synthetic, clearly labeled examples.
 
-## Unreleased — provider-adaptive routing and developer onboarding
+### provider-adaptive routing and developer onboarding
 
 - Researched published Codex, Claude, Gemini, Cursor, OpenCode, and Copilot execution and subagent behavior; recovered the earlier local Claude-style implementation discipline skill as a design reference.
 - Added executable Fast/Standard/Deep workflow routing, ownership-aware parallel candidates, checkpoint-gated recurring candidates, review-only routing and observable retry/test/log signals.
@@ -64,13 +73,13 @@
 - Added explicitly opt-in Claude Code and Gemini prompt-entry hook prototypes with non-coding no-op and explicit opt-out, without registering hooks anywhere.
 - Reworked README around concrete workflow examples, transparent feature status and reproducible validation.
 
-## Unreleased — prompt-conditioned execution guidance
+### prompt-conditioned execution guidance
 
 - Added a no-model task-contract planner, host-specific guidance profiles, and strict tests.
 - Preserve exact stated constraints and tool availability; never infer hidden instructions or private model reasoning.
 - Documented limitations and the path toward opt-in native runtime adapters and measured behavioral adaptation.
 
-## Unreleased — no-model acceptance and reversible installation
+### no-model acceptance and reversible installation
 
 - Added native six-client project/global installer, dry-run and idempotent status tracking.
 - Added collision refusal, optional backups, original restoration and integrity checks.
